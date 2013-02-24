@@ -41,7 +41,7 @@ private ArrayList<Item> mItems;
 
 				@Override
 				public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-					startActivity(new Intent(ItemsListActivity.this.getApplicationContext(), SingleItemPlayerScreen.class));
+					startActivity(new Intent(ItemsListActivity.this.getApplicationContext(), SingleItemDetailsScreen.class).putExtra("CURRENT_ITEM", mItems.get(arg2)));
 				}
 			});
 			

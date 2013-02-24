@@ -64,14 +64,14 @@ public class ItemsListAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 		
-		if(current.getThumbnailUrl().length() != 0){
-			holder.mThumbnailHolder.setTag(current.getThumbnailUrl());
+		if(current.getLecturerProfileImageUrl().length() != 0){
+			holder.mThumbnailHolder.setTag(current.getLecturerProfileImageUrl()+"$sep$"+current.getLectureYoutubeAssetId());
 			ServerCommunicationManager.getInstance(mContext).getBitmap(holder.mThumbnailHolder);
 		}else{
 			holder.mThumbnailHolder.setImageResource(R.drawable.ic_launcher);
 		}
-		holder.mTitleHolder.setText(current.getTitle());
-		holder.mDescriptionHolder.setText(current.getDescription());
+		holder.mTitleHolder.setText(current.getLectureTitle());
+		holder.mDescriptionHolder.setText(current.getLectureDescription());
 		
 		return convertView;
 	}

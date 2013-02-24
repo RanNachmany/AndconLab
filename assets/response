@@ -1,0 +1,37 @@
+{
+    "results": [
+        {
+            "created_at": "Sun, 03 Feb 2013 05:02:30 +0000",
+            "event_name": "GDG Herzeliya - IO reloaded",
+            "lecture_title": "What's new in Jelly Bean",
+            "lecturer_name": "Royi Benyossef",
+            "lecturer_profile_image_url": "http://photos2.meetupstatic.com/photos/event/4/a/c/6/event_143179142.jpeg",
+            "lecture_video_url": "http://www.youtube.com/watch?v=Y4UMzOWcgGQ",
+            "lecture_youtube_asset_id": "Y4UMzOWcgGQ",
+            "lecture_slides_url": "",
+            "description": "See, learn and experience all the new cool things in Android's new version."
+        },
+        {
+            "created_at": "Sun, 03 Feb 2013 05:02:30 +0000",
+            "event_name": "GDG Herzeliya - IO reloaded",
+            "lecture_title": "Making Good Apps Great",
+            "lecturer_name": "Dan Elkayam",
+            "lecturer_profile_image_url": "http://photos2.meetupstatic.com/photos/event/4/c/6/0/event_143179552.jpeg",
+            "lecture_video_url": "http://www.youtube.com/watch?v=9cuUwZ9wLHs",
+            "lecture_youtube_asset_id": "9cuUwZ9wLHs",
+            "lecture_slides_url": "",
+            "description": "Learn what seperates the men from the boys."
+        },
+        {
+            "created_at": "Sun, 03 Feb 2013 05:02:30 +0000",
+            "event_name": "GDG Herzeliya - IO reloaded",
+            "lecture_title": "Jelly bean Notification framework and must-have libraries",
+            "lecturer_name": "Roman Landenband",
+            "lecturer_profile_image_url": "http://photos1.meetupstatic.com/photos/event/a/0/c/0/event_149621152.jpeg",
+            "lecture_video_url": "http://www.youtube.com/watch?v=6-1hn8ZtTZM",
+            "lecture_youtube_asset_id": "6-1hn8ZtTZM",
+            "lecture_slides_url": "",
+            "description": "Get notified about the new notifications."
+        }
+    ]
+}

@@ -917,7 +917,9 @@ containing a value of this type.
         public static final int abs__textfield_searchview_holo_light=0x7f02006c;
         public static final int abs__textfield_searchview_right_holo_dark=0x7f02006d;
         public static final int abs__textfield_searchview_right_holo_light=0x7f02006e;
-        public static final int ic_launcher=0x7f02006f;
+        public static final int andconlablauncher=0x7f02006f;
+        public static final int ic_launcher=0x7f020070;
+        public static final int youtube=0x7f020071;
     }
     public static final class id {
         public static final int abs__action_bar=0x7f040022;
@@ -966,12 +968,23 @@ containing a value of this type.
         public static final int homeAsUp=0x7f040006;
         public static final int layout=0x7f040036;
         public static final int listMode=0x7f040002;
-        public static final int menu_settings=0x7f040038;
         public static final int normal=0x7f040001;
-        public static final int player=0x7f040037;
         public static final int showCustom=0x7f040008;
         public static final int showHome=0x7f040005;
         public static final int showTitle=0x7f040007;
+        public static final int single_details_lecture_description=0x7f04003c;
+        public static final int single_details_lecture_description_title=0x7f04003b;
+        public static final int single_details_lecture_links_slides=0x7f040043;
+        public static final int single_details_lecture_links_slides_title=0x7f040042;
+        public static final int single_details_lecture_links_title=0x7f04003e;
+        public static final int single_details_lecture_links_video=0x7f040041;
+        public static final int single_details_lecture_links_video_title=0x7f040040;
+        public static final int single_details_lecture_title=0x7f040037;
+        public static final int single_details_lecturer_image=0x7f040038;
+        public static final int single_details_lecturer_name=0x7f040039;
+        public static final int single_details_sep=0x7f04003a;
+        public static final int single_details_sep2=0x7f04003d;
+        public static final int single_details_sep3=0x7f04003f;
         public static final int tabMode=0x7f040003;
         public static final int thumbnail=0x7f040033;
         public static final int title=0x7f040034;
@@ -1009,10 +1022,10 @@ containing a value of this type.
         public static final int list_item=0x7f030018;
         public static final int sherlock_spinner_dropdown_item=0x7f030019;
         public static final int sherlock_spinner_item=0x7f03001a;
-        public static final int single_item_player_activity=0x7f03001b;
+        public static final int single_item_details_activity=0x7f03001b;
     }
     public static final class menu {
-        public static final int activity_items_list=0x7f0b0000;
+        public static final int single_display_menu=0x7f0b0000;
     }
     public static final class string {
         /**  Content description for the action bar "home" affordance. [CHAR LIMIT=NONE] 
@@ -1060,23 +1073,32 @@ containing a value of this type.
         /**  Description of a share target (both in the list of such or the default share button) in a ShareActionProvider (share UI). [CHAR LIMIT=NONE] 
          */
         public static final int abs__shareactionprovider_share_with_application=0x7f090009;
+        public static final int actionbar_label=0x7f090010;
         public static final int app_name=0x7f09000f;
-        public static final int connectivity_dialog_message=0x7f090014;
-        public static final int connectivity_dialog_title=0x7f090015;
-        public static final int default_description=0x7f09001c;
-        public static final int default_thumbnail_url=0x7f09001d;
-        public static final int default_title=0x7f09001b;
+        public static final int connectivity_dialog_message=0x7f090015;
+        public static final int connectivity_dialog_title=0x7f090016;
+        public static final int default_lecture_title=0x7f090021;
+        public static final int default_lecturer_name=0x7f090020;
+        public static final int default_text=0x7f09001c;
+        public static final int default_url=0x7f09001d;
         public static final int error_player=0x7f09001f;
-        public static final int hello_world=0x7f090010;
-        public static final int list_item_empty_message=0x7f090012;
-        public static final int menu_settings=0x7f090011;
+        public static final int hello_world=0x7f090011;
+        public static final int lecture_description=0x7f090025;
+        public static final int lecture_title=0x7f090024;
+        public static final int lecturer_name=0x7f090023;
+        public static final int links=0x7f090026;
+        public static final int list_item_empty_message=0x7f090013;
+        public static final int menu_settings=0x7f090012;
         public static final int ok=0x7f09001e;
-        public static final int progress_dialog_fetching_message=0x7f090019;
-        public static final int progress_dialog_fetching_title=0x7f090018;
-        public static final int progress_dialog_starting_message=0x7f090017;
-        public static final int progress_dialog_starting_title=0x7f090016;
-        public static final int thumbnail_image_description=0x7f090013;
-        public static final int toast_no_items=0x7f09001a;
+        public static final int progress_dialog_fetching_message=0x7f09001a;
+        public static final int progress_dialog_fetching_title=0x7f090019;
+        public static final int progress_dialog_starting_message=0x7f090018;
+        public static final int progress_dialog_starting_title=0x7f090017;
+        public static final int provider_authority=0x7f090022;
+        public static final int slides=0x7f090028;
+        public static final int thumbnail_image_description=0x7f090014;
+        public static final int toast_no_items=0x7f09001b;
+        public static final int video=0x7f090027;
     }
     public static final class style {
         /** 
@@ -1194,6 +1216,7 @@ containing a value of this type.
         public static final int Widget_Sherlock_SearchAutoCompleteTextView=0x7f0a0034;
         public static final int Widget_Sherlock_Spinner_DropDown_ActionBar=0x7f0a0024;
         public static final int Widget_Sherlock_TextView_SpinnerItem=0x7f0a0032;
+        public static final int bold_text=0x7f0a005b;
     }
     public static final class styleable {
         /**  Attributes used to style the Action Bar. 
