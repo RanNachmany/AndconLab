@@ -1,37 +1,45 @@
-{
-    "results": [
-        {
-            "created_at": "Sun, 03 Feb 2013 05:02:30 +0000",
-            "event_name": "GDG Herzeliya - IO reloaded",
-            "lecture_title": "What's new in Jelly Bean",
-            "lecturer_name": "Royi Benyossef",
-            "lecturer_profile_image_url": "http://photos2.meetupstatic.com/photos/event/4/a/c/6/event_143179142.jpeg",
-            "lecture_video_url": "http://www.youtube.com/watch?v=Y4UMzOWcgGQ",
-            "lecture_youtube_asset_id": "Y4UMzOWcgGQ",
-            "lecture_slides_url": "",
-            "description": "See, learn and experience all the new cool things in Android's new version."
-        },
-        {
-            "created_at": "Sun, 03 Feb 2013 05:02:30 +0000",
-            "event_name": "GDG Herzeliya - IO reloaded",
-            "lecture_title": "Making Good Apps Great",
-            "lecturer_name": "Dan Elkayam",
-            "lecturer_profile_image_url": "http://photos2.meetupstatic.com/photos/event/4/c/6/0/event_143179552.jpeg",
-            "lecture_video_url": "http://www.youtube.com/watch?v=9cuUwZ9wLHs",
-            "lecture_youtube_asset_id": "9cuUwZ9wLHs",
-            "lecture_slides_url": "",
-            "description": "Learn what seperates the men from the boys."
-        },
-        {
-            "created_at": "Sun, 03 Feb 2013 05:02:30 +0000",
-            "event_name": "GDG Herzeliya - IO reloaded",
-            "lecture_title": "Jelly bean Notification framework and must-have libraries",
-            "lecturer_name": "Roman Landenband",
-            "lecturer_profile_image_url": "http://photos1.meetupstatic.com/photos/event/a/0/c/0/event_149621152.jpeg",
-            "lecture_video_url": "http://www.youtube.com/watch?v=6-1hn8ZtTZM",
-            "lecture_youtube_asset_id": "6-1hn8ZtTZM",
-            "lecture_slides_url": "",
-            "description": "Get notified about the new notifications."
-        }
-    ]
-}
+[
+    {
+        "lectures": [
+            {
+                "speakers": [
+                    {
+                        "bio": "Sample bio",
+                        "first_name": "Amir",
+                        "last_name": "Lazarovich",
+                        "image_url": "http://amirl.me/imgs/about/me2_bw.jpg",
+                        "id": 1
+                    },
+                    {
+                        "bio": "Sample bio",
+                        "first_name": "Ran",
+                        "last_name": "Nachmany",
+                        "image_url": "http://photos1.meetupstatic.com/photos/event/4/a/4/e/highres_143179022.jpeg",
+                        "id": 2
+                    },
+                    {
+                        "bio": "Sample bio",
+                        "first_name": "Royi",
+                        "last_name": "Benyossef",
+                        "image_url": "http://photos1.meetupstatic.com/photos/event/4/a/4/e/highres_143179022.jpeg",
+                        "id": 3
+                    }
+                ],
+                "description": "bla bla fragments",
+                "video_url": "http://www.youtube.com/watch?v=6vEA2EIBHUs",
+                "slides_url": "http://www.slideshare.net/amirlazarovich/adk-101",
+                "duration": 180,
+                "youtube_asset_id": "6vEA2EIBHUs",
+                "id": 1,
+                "name": "code lab"
+            }
+        ],
+        "description": "Sample event description",
+        "end_date": "2013-03-05T22:00:00Z",
+        "id": 1,
+        "logo_url": "http://photos2.meetupstatic.com/photos/event/7/b/7/c/highres_154051612.jpeg",
+        "start_date": "2013-03-04T18:00:00Z",
+        "website_url": "http://www.meetup.com/GDG-Herzeliya/events/104989192/",
+        "name": "Sample event"
+    }
+]

@@ -16,20 +16,20 @@
 
 package com.gdg.andconlab;
 
-import com.actionbarsherlock.app.SherlockActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuInflater;
-import com.actionbarsherlock.view.MenuItem;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
+import com.actionbarsherlock.view.MenuItem;
+import com.gdg.andconlab.models.Event;
 
 public class SingleItemDetailsScreen extends SherlockActivity {
 
-	Item mCurrentItem;
+	Event mCurrentEvent;
 	ImageView mLecturerImage;
 	TextView mLecturerName;
 	TextView mLectureTitle;
@@ -58,16 +58,16 @@ public class SingleItemDetailsScreen extends SherlockActivity {
   protected void onStart() {
     super.onStart();
 
-    mCurrentItem = (Item) getIntent().getExtras().get("CURRENT_ITEM");
+    mCurrentEvent = (Event) getIntent().getExtras().getSerializable("CURRENT_ITEM");
     
-    mLecturerImage.setTag(mCurrentItem.getLecturerProfileImageUrl()+"$sep$"+mCurrentItem.getLectureYoutubeAssetId());
-    ServerCommunicationManager.getInstance(this.getApplicationContext()).getBitmap(mLecturerImage);
+//    mLecturerImage.setTag(mCurrentEvent.getLecturerProfileImageUrl()+"$sep$"+ mCurrentEvent.getLectureYoutubeAssetId());
+//    ServerCommunicationManager.getInstance(this.getApplicationContext()).getBitmap(mLecturerImage);
     
-    mLectureTitle.setText(mCurrentItem.getLectureTitle());
-    mLecturerName.setText(mCurrentItem.getLecturerName());
-    mLectureDescription.setText(mCurrentItem.getLectureDescription());
-    mLinksSlides.setText(mCurrentItem.getLectureSlidesUrl());
-    mLinksVideo.setText(mCurrentItem.getLectureVideoUrl());
+//    mLectureTitle.setText(mCurrentEvent.getLectureTitle());
+//    mLecturerName.setText(mCurrentEvent.getLecturerName());
+//    mLectureDescription.setText(mCurrentEvent.getLectureDescription());
+//    mLinksSlides.setText(mCurrentEvent.getLectureSlidesUrl());
+//    mLinksVideo.setText(mCurrentEvent.getLectureVideoUrl());
     
   }
   

@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * @author Amir Lazarovich
  * @version 1.0.6
  */
 @SuppressLint("DefaultLocale")
@@ -318,5 +317,27 @@ public class StringUtils {
         source = source.toLowerCase();
         String charAt = String.valueOf(source.charAt(0));
         return source.replaceFirst(charAt, charAt.toUpperCase());
+    }
+
+    /**
+     * Concatenate two strings. <br/>
+     * If one of the strings is empty, returns the other one
+     *
+     * @param leftSide
+     * @param conjunction
+     * @param rightSide
+     * @return
+     */
+    public static String concat(String leftSide, String conjunction, String rightSide)
+    {
+        if (android.text.TextUtils.isEmpty(rightSide)) {
+            return leftSide;
+        }
+
+        if (android.text.TextUtils.isEmpty(leftSide)) {
+            return rightSide;
+        }
+
+        return String.format("%s%s%s", leftSide, conjunction, rightSide);
     }
 }

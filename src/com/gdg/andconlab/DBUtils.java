@@ -1,7 +1,12 @@
 package com.gdg.andconlab;
 
+import android.content.ContentProviderOperation;
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
+import android.util.Log;
+
+import java.util.ArrayList;
 
 /**
  * Utility class for DB related operations
@@ -10,6 +15,7 @@ import android.net.Uri;
  * @version 0.1
  */
 public class DBUtils {
+    private static final String TAG = "DBUtils";
 //select lecturerImage from assets where lectureVideoId='Y4UMzOWcgGQ';
     /**
      * Create DB table
@@ -124,4 +130,18 @@ public class DBUtils {
         return appendId(contentUri.buildUpon(), id).build();
     }
 
+    /**
+     * Safely apply batch operations on a content resolver
+     *
+     * @param context
+     * @param authority
+     * @param ops
+     */
+    public static void sApplyBatch(Context context, String authority, ArrayList<ContentProviderOperation> ops) {
+        try {
+            context.getContentResolver().applyBatch(authority, ops);
+        } catch (Exception e) {
+            Log.e(TAG, "Couldn't apply batch operations on content resolver", e);
+        }
+    }
 }

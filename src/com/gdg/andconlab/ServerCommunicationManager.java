@@ -1,24 +1,5 @@
 package com.gdg.andconlab;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.util.ArrayList;
-
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.BasicResponseHandler;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-
-import com.gdg.andconlab.ItemsProvider.ItemColumns;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -30,131 +11,135 @@ import android.os.AsyncTask;
 import android.support.v4.util.LruCache;
 import android.util.Log;
 import android.widget.ImageView;
+import com.gdg.andconlab.ItemsProvider.ItemColumns;
+import com.gdg.andconlab.R.string;
+import com.gdg.andconlab.models.Event;
+import com.gdg.andconlab.utils.JacksonUtils;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+import org.codehaus.jackson.type.TypeReference;
+
+import java.io.*;
+import java.net.URL;
+import java.util.List;
 
 public class ServerCommunicationManager{
 	
 	public static final String TAG = "TWITTER_SEARCH_EXAMPLE_SERVER_COMMUNICATION";
-	public static final String BASE_URL = "http://search.twitter.com/search.json?q=@";
-	public static final String RPP = "&rpp=100";
-	public static final String PAGE = "&page=";
 	public static final String RESULTS_ARE_IN = "RESULTS_ARE_IN";
-	
-	public static final String JSON_OBJECT_RESULTS = "results";
-	
+
 	private static ServerCommunicationManager mThis = null;
-	
+
+    private static String GET_EVENTS;
+    private static String GET_EVENT;
+    private static String GET_EVENT_LECTURES;
+
+    private static String GET_LECTURES;
+    private static String GET_LECTURE;
+    private static String GET_LECTURE_SPEAKERS;
+
+    private static String GET_SPEAKERS;
+    private static String GET_SPEAKER;
+    private static String GET_SPEAKER_LECTURES;
+
 	private HttpClient mHttpClient;        
 	private ResponseHandler<String> mResponseHandler;
 
 	private static Context mContext;
 	
-	private ArrayList<Item> mItems;
+	private List<Event> mEvents;
 	private LruCache<String, Bitmap> mImageCache;
 	private ItemsProvider mProvider;
 	
 	public ServerCommunicationManager(Context context) {
 		mHttpClient = new  DefaultHttpClient();
+        HttpParams params = mHttpClient.getParams();
+        int serverConnectionTimeout = context.getResources().getInteger(R.integer.http_connection_timeout_in_seconds) * 1000;
+        HttpConnectionParams.setConnectionTimeout(params, serverConnectionTimeout);
+        HttpConnectionParams.setSoTimeout(params, serverConnectionTimeout);
+
 		mResponseHandler = new BasicResponseHandler();
 		mImageCache = new LruCache<String, Bitmap>(100);
 		mProvider = new ItemsProvider();
 		mContext = context;
-	}
-	
-	public static ServerCommunicationManager getInstance(Context context){
+        initApiStrings(context);
+    }
+
+    private void initApiStrings(Context context) {
+        String serverAddress = context.getString(string.server_address);
+        GET_EVENTS = String.format("%s%s", serverAddress, context.getString(string.api_get_events));
+        GET_EVENT = String.format("%s%s", serverAddress, context.getString(string.api_get_event));
+        GET_EVENT_LECTURES = String.format("%s%s", serverAddress, context.getString(string.api_get_event_lectures));
+
+        GET_LECTURES = String.format("%s%s", serverAddress, context.getString(string.api_get_lectures));
+        GET_LECTURE = String.format("%s%s", serverAddress, context.getString(string.api_get_lecture));
+        GET_LECTURE_SPEAKERS = String.format("%s%s", serverAddress, context.getString(string.api_get_lecture_speakers));
+
+        GET_SPEAKERS = String.format("%s%s", serverAddress, context.getString(string.api_get_speakers));
+        GET_SPEAKER = String.format("%s%s", serverAddress, context.getString(string.api_get_speaker));
+        GET_SPEAKER_LECTURES = String.format("%s%s", serverAddress, context.getString(string.api_get_speaker_lectures));
+    }
+
+    public static synchronized ServerCommunicationManager getInstance(Context context){
+        // TODO bad singleton pattern
+        // TODO dangerous class member - context - potential leak if given context other then application context
 		if(mThis == null){
 			mThis = new ServerCommunicationManager(context);
 		}
-		
+
 		return mThis;
 	}
 	
 	
 	public void startSearch(String searchTerm, int page) {
-		String searchUrl = BASE_URL + searchTerm + RPP + PAGE + page;
-		
-		new RetreiveFeedTask().execute(searchUrl);
+		new RetreiveFeedTask().execute(GET_EVENTS);
 	}
 	
-	public ArrayList<Item> getItems() {
-		return mItems;
+	public List<Event> getEvents() {
+		return mEvents;
 	}
 	
 	public void getBitmap(ImageView iv){
 		new DownloadImage().execute(iv);
 	}
 	
-	class RetreiveFeedTask extends AsyncTask<String, Void, ArrayList<Item>> {
+	class RetreiveFeedTask extends AsyncTask<String, Void, List<Event>> {
 
-	    protected ArrayList<Item> doInBackground(String... urls) {
+	    protected List<Event> doInBackground(String... urls) {
 	        try {
 	            HttpGet httpGet = new HttpGet(urls[0]);
-	  		  
-	            ArrayList<Item> Items = new ArrayList<Item>();
-	    		    
-	    		  
 	    		String responseBody = null;
 	    		
 	    		try {
-	    			responseBody = readTextFromFile("response", true);//mHttpClient.execute(httpGet, mResponseHandler);
+//	    			responseBody = readTextFromFile("response", true);
+                    responseBody = mHttpClient.execute(httpGet, mResponseHandler);
 	    		} catch(Exception ex) {
 	    		    ex.printStackTrace();
 	    		}
 
-	    		if(responseBody != null){
-	    			JSONObject jsonObject = null;
-	    			  JSONParser parser=new JSONParser();
-	    			    
-	    			  try {
-	    			    Object obj = parser.parse(responseBody);
-	    			    jsonObject=(JSONObject)obj;
-	    			  }catch(Exception ex){
-	    			    Log.v(TAG,"Exception: " + ex.getMessage());
-	    			  }
-	    			    
-	    			  JSONArray arr = null;
-	    			    
-	    			  try {
-	    			    Object j = jsonObject.get(JSON_OBJECT_RESULTS);
-	    			    arr = (JSONArray)j;
-	    			  } catch(Exception ex){
-	    			    Log.v(TAG,"Exception: " + ex.getMessage());
-	    			  }
-
-	    			  Item item;
-	    			  ContentValues values = new ContentValues();
-	    			  for(Object t : arr) {
-	    			    item = new Item(
-	    			      ((JSONObject)t).get(Item.JSON_OBJECT_ITEM_EVENT_NAME).toString(),
-	    			      ((JSONObject)t).get(Item.JSON_OBJECT_ITEM_LECTURE_TITLE).toString(),
-	    			      ((JSONObject)t).get(Item.JSON_OBJECT_ITEM_VIDEO).toString(),
-	    			      ((JSONObject)t).get(Item.JSON_OBJECT_ITEM_SLIDES).toString(),
-	    			      ((JSONObject)t).get(Item.JSON_OBJECT_ITEM_YOUTUBE_ID).toString(),
-	    			      ((JSONObject)t).get(Item.JSON_OBJECT_ITEM_DESCRIPTION).toString(),
-	    			      ((JSONObject)t).get(Item.JSON_OBJECT_ITEM_LECTURER_NAME).toString(),
-	    			      ((JSONObject)t).get(Item.JSON_OBJECT_ITEM_LECTURER_IMAGE).toString()
-	    			    );
-	    			    Items.add(item);
-	    			    values.put(ItemColumns.COLUMN_NAME_EVENT_NAME, item.getEventName());
-	    			    values.put(ItemColumns.COLUMN_NAME_LECTURE_TITLE, item.getLectureTitle());
-	    			    values.put(ItemColumns.COLUMN_NAME_LECTURE_VIDEO_URL, item.getLectureVideoUrl());
-	    			    values.put(ItemColumns.COLUMN_NAME_LECTURE_SLIDES_URL, item.getLectureSlidesUrl());
-	    			    values.put(ItemColumns.COLUMN_NAME_LECTURE_VIDEO_ID, item.getLectureYoutubeAssetId());
-	    			    values.put(ItemColumns.COLUMN_NAME_LECTURE_DESCRIPTION, item.getLectureDescription());
-	    			    values.put(ItemColumns.COLUMN_NAME_LECTURER_NAME, item.getLecturerName());
-	    			    values.put(ItemColumns.COLUMN_NAME_LECTURER_IMAGE_URL, item.getLecturerProfileImageUrl());
-	    			    //mProvider.insert(ItemColumns.CONTENT_URI, values);
-	    			    mContext.getContentResolver().insert(ItemColumns.CONTENT_URI, values);
-	    			  }
+                List<Event> events = null;
+	    		if(responseBody != null) {
+                    events = JacksonUtils.sReadValue(responseBody, new TypeReference<List<Event>>() {}, false);
+                    if (events != null) {
+                        for (Event event : events) {
+                            event.save(mContext);
+                        }
+                    }
 	    		}
-	            return Items;
+	            return events;
 	        } catch (Exception e) {
 	            Log.d(TAG, "exception");
 	        	return null;
 	        }
 	    }
 
-	    protected void onPostExecute(ArrayList<Item> Items) {
-	    	mItems = Items;
+	    protected void onPostExecute(List<Event> events) {
+	    	mEvents = events;
 	        Intent intent = new Intent();
 	        intent.setAction(RESULTS_ARE_IN);
 	          

@@ -12,6 +12,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.provider.BaseColumns;
 import android.util.Log;
+
 import java.util.HashMap;
 
 /**
@@ -32,7 +33,7 @@ public class ItemsProvider extends ContentProvider {
     private static final String TAG = "ItemColumns_PROVIDER";
 
     private static final String DATABASE_NAME = "andconlab.ItemColumns.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     /*
     * Constants used by the Uri matcher to choose an action based on the pattern
@@ -63,15 +64,23 @@ public class ItemsProvider extends ContentProvider {
         sItemColumnsProjectionMap = new HashMap<String, String>();
         sItemColumnsProjectionMap.put(ItemColumns._ID, ItemColumns._ID);
         sItemColumnsProjectionMap.put(ItemColumns.COLUMN_NAME_LECTURE_VIDEO_ID, ItemColumns.COLUMN_NAME_LECTURE_VIDEO_ID);
-        
+
         sItemColumnsProjectionMap.put(ItemColumns.COLUMN_NAME_EVENT_NAME, ItemColumns.COLUMN_NAME_EVENT_NAME);
+        sItemColumnsProjectionMap.put(ItemColumns.COLUMN_NAME_EVENT_DESCRIPTION, ItemColumns.COLUMN_NAME_EVENT_DESCRIPTION);
+        sItemColumnsProjectionMap.put(ItemColumns.COLUMN_NAME_EVENT_LOGO_URL, ItemColumns.COLUMN_NAME_EVENT_LOGO_URL);
+        sItemColumnsProjectionMap.put(ItemColumns.COLUMN_NAME_EVENT_WEBSITE_URL, ItemColumns.COLUMN_NAME_EVENT_WEBSITE_URL);
+        sItemColumnsProjectionMap.put(ItemColumns.COLUMN_NAME_EVENT_START_DATE, ItemColumns.COLUMN_NAME_EVENT_START_DATE);
+        sItemColumnsProjectionMap.put(ItemColumns.COLUMN_NAME_EVENT_END_DATE, ItemColumns.COLUMN_NAME_EVENT_END_DATE);
+
         sItemColumnsProjectionMap.put(ItemColumns.COLUMN_NAME_LECTURE_TITLE, ItemColumns.COLUMN_NAME_LECTURE_TITLE);
         sItemColumnsProjectionMap.put(ItemColumns.COLUMN_NAME_LECTURER_NAME, ItemColumns.COLUMN_NAME_LECTURER_NAME);
         sItemColumnsProjectionMap.put(ItemColumns.COLUMN_NAME_LECTURER_IMAGE_URL, ItemColumns.COLUMN_NAME_LECTURER_IMAGE_URL);
+        sItemColumnsProjectionMap.put(ItemColumns.COLUMN_NAME_LECTURER_BIO, ItemColumns.COLUMN_NAME_LECTURER_BIO);
         sItemColumnsProjectionMap.put(ItemColumns.COLUMN_NAME_LECTURER_IMAGE, ItemColumns.COLUMN_NAME_LECTURER_IMAGE);
         sItemColumnsProjectionMap.put(ItemColumns.COLUMN_NAME_LECTURE_VIDEO_URL, ItemColumns.COLUMN_NAME_LECTURE_VIDEO_URL);
         sItemColumnsProjectionMap.put(ItemColumns.COLUMN_NAME_LECTURE_SLIDES_URL, ItemColumns.COLUMN_NAME_LECTURE_SLIDES_URL);
         sItemColumnsProjectionMap.put(ItemColumns.COLUMN_NAME_LECTURE_DESCRIPTION, ItemColumns.COLUMN_NAME_LECTURE_DESCRIPTION);
+        sItemColumnsProjectionMap.put(ItemColumns.COLUMN_NAME_LECTURE_DURATION, ItemColumns.COLUMN_NAME_LECTURE_DURATION);
         sItemColumnsProjectionMap.put(ItemColumns.COLUMN_NAME_TIMESTAMP, ItemColumns.COLUMN_NAME_TIMESTAMP);
     }
 
@@ -361,18 +370,25 @@ public class ItemsProvider extends ContentProvider {
         @Override
         public void onCreate(SQLiteDatabase db) {
             StringBuilder sb = new StringBuilder();
-            
+
             DBUtils.createTable(db, sb, ItemColumns.TABLE_NAME,
                     ItemColumns._ID, "INTEGER PRIMARY KEY AUTOINCREMENT",
                     ItemColumns.COLUMN_NAME_LECTURE_VIDEO_ID, "TEXT",
                     ItemColumns.COLUMN_NAME_EVENT_NAME, "TEXT",
+                    ItemColumns.COLUMN_NAME_EVENT_DESCRIPTION, "TEXT",
+                    ItemColumns.COLUMN_NAME_EVENT_LOGO_URL, "TEXT",
+                    ItemColumns.COLUMN_NAME_EVENT_WEBSITE_URL, "TEXT",
+                    ItemColumns.COLUMN_NAME_EVENT_START_DATE, "TEXT",
+                    ItemColumns.COLUMN_NAME_EVENT_END_DATE, "TEXT",
                     ItemColumns.COLUMN_NAME_LECTURE_TITLE, "TEXT",
                     ItemColumns.COLUMN_NAME_LECTURER_NAME, "TEXT",
                     ItemColumns.COLUMN_NAME_LECTURER_IMAGE_URL, "TEXT",
+                    ItemColumns.COLUMN_NAME_LECTURER_BIO, "TEXT",
                     ItemColumns.COLUMN_NAME_LECTURER_IMAGE, "BLOB",
                     ItemColumns.COLUMN_NAME_LECTURE_VIDEO_URL, "TEXT",
                     ItemColumns.COLUMN_NAME_LECTURE_SLIDES_URL, "TEXT",
                     ItemColumns.COLUMN_NAME_LECTURE_DESCRIPTION, "TEXT",
+                    ItemColumns.COLUMN_NAME_LECTURE_DURATION, "TEXT",
                     ItemColumns.COLUMN_NAME_TIMESTAMP, "INTEGER");
         }
 
@@ -386,11 +402,12 @@ public class ItemsProvider extends ContentProvider {
             onCreate(db);
         }
     }
-    
+
     public static final class ItemColumns implements BaseColumns {
         // This class cannot be instantiated
-        private ItemColumns() {}
-        
+        private ItemColumns() {
+        }
+
         //This table name
         public static final String TABLE_NAME = "assets";
         //The content:// style URL for this table
@@ -405,13 +422,20 @@ public class ItemsProvider extends ContentProvider {
         static final String COLUMN_NAME_TIMESTAMP = "timestamp";
         public static final String COLUMN_NAME_LECTURE_VIDEO_ID = "lectureVideoId";
         public static final String COLUMN_NAME_EVENT_NAME = "eventName";
+        public static final String COLUMN_NAME_EVENT_DESCRIPTION = "eventDescription";
+        public static final String COLUMN_NAME_EVENT_LOGO_URL = "eventLogoUrl";
+        public static final String COLUMN_NAME_EVENT_WEBSITE_URL = "eventWebsiteUrl";
+        public static final String COLUMN_NAME_EVENT_START_DATE = "eventStartDate";
+        public static final String COLUMN_NAME_EVENT_END_DATE = "eventEndDate";
         public static final String COLUMN_NAME_LECTURE_TITLE = "lectureTitle";
         public static final String COLUMN_NAME_LECTURER_NAME = "lecturerName";
         public static final String COLUMN_NAME_LECTURER_IMAGE_URL = "lecturerImageUrl";
+        public static final String COLUMN_NAME_LECTURER_BIO = "lecturerBio";
         public static final String COLUMN_NAME_LECTURER_IMAGE = "lecturerImage";
         public static final String COLUMN_NAME_LECTURE_VIDEO_URL = "lectureVideoUrl";
-        public static final String COLUMN_NAME_LECTURE_SLIDES_URL = "lectureSlidesUrl";        
+        public static final String COLUMN_NAME_LECTURE_SLIDES_URL = "lectureSlidesUrl";
         public static final String COLUMN_NAME_LECTURE_DESCRIPTION = "lectureDescription";
+        public static final String COLUMN_NAME_LECTURE_DURATION = "lectureDuration";
 
         public static final int VIDEO_ID_PATH_POSITION = 1;
         public static final String DEFAULT_SORT_ORDER = "timestamp ASC";

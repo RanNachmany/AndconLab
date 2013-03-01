@@ -1,44 +1,36 @@
 package com.gdg.andconlab;
 
-import java.util.ArrayList;
-import java.util.List;
-import android.content.Context;
+import android.text.TextUtils;
+import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.gdg.andconlab.models.Event;
+import com.gdg.andconlab.utils.CollectionUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ItemsListAdapter extends BaseAdapter {
 
-	private ArrayList<Item> mItems;
-	private Context mContext;
-	
-	public ItemsListAdapter(Context context, List<Item> tweets) {
-        mContext = context;
-        mItems = (ArrayList<Item>) ((tweets != null) ? tweets : new ArrayList<Item>());
+	private List<Event> mEvents;
+
+	public ItemsListAdapter(List<Event> events) {
+        mEvents = (events != null) ? events : new ArrayList<Event>();
         notifyDataSetChanged();
     }
 	
 	@Override
 	public int getCount() {
-		try{
-			return mItems.size();
-		}catch(Exception e){
-			
-		}
-		return 0;
+        return CollectionUtils.getSize(mEvents);
 	}
 
 	@Override
 	public Object getItem(int position) {
-		try{
-			return mItems.get(position);
-		}catch(Exception e){
-			
-		}
-		return null;
+        return CollectionUtils.getAt(mEvents, position);
 	}
 
 	@Override
@@ -49,7 +41,7 @@ public class ItemsListAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
-		Item current = mItems.get(position);
+		Event event = mEvents.get(position);
 		
 		if (convertView == null) {
             convertView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
@@ -63,16 +55,29 @@ public class ItemsListAdapter extends BaseAdapter {
 		}else {
             holder = (ViewHolder) convertView.getTag();
         }
-		
-		if(current.getLecturerProfileImageUrl().length() != 0){
-			holder.mThumbnailHolder.setTag(current.getLecturerProfileImageUrl()+"$sep$"+current.getLectureYoutubeAssetId());
-			ServerCommunicationManager.getInstance(mContext).getBitmap(holder.mThumbnailHolder);
-		}else{
-			holder.mThumbnailHolder.setImageResource(R.drawable.ic_launcher);
-		}
-		holder.mTitleHolder.setText(current.getLectureTitle());
-		holder.mDescriptionHolder.setText(current.getLectureDescription());
-		
+
+        if (TextUtils.isEmpty(event.getLogoUrl())) {
+            holder.mThumbnailHolder.setImageResource(R.drawable.ic_launcher);
+        } else {
+            // TODO image manager requires a different implementation
+//            holder.mThumbnailHolder.setTag(event.getLecturerProfileImageUrl()+"$sep$"+event.getLectureYoutubeAssetId());
+//            ServerCommunicationManager.getInstance(mContext).getBitmap(holder.mThumbnailHolder);
+        }
+
+		holder.mTitleHolder.setText(event.getName());
+
+        StringBuilder descriptionBuilder = new StringBuilder();
+        if (!TextUtils.isEmpty(event.getStartDate())) {
+            // example of one possible way to parse the date field
+            Time t = new Time();
+            t.parse3339(event.getStartDate());
+            descriptionBuilder.append(t.format("%Y-%m-%d %H:%M"));
+            descriptionBuilder.append(": ");
+        }
+
+        descriptionBuilder.append(event.getDescription());
+		holder.mDescriptionHolder.setText(descriptionBuilder.toString());
+
 		return convertView;
 	}
 	
@@ -82,6 +87,4 @@ public class ItemsListAdapter extends BaseAdapter {
         TextView mTitleHolder;
         TextView mDescriptionHolder;
     }
-	
-
 }
