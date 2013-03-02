@@ -102,7 +102,7 @@ public class MainActivity extends SherlockActivity implements OnItemClickListene
 		@Override
 		protected Cursor doInBackground(Void... params) {
 			db = new DatabaseHelper(MainActivity.this.getApplicationContext(), DatabaseHelper.DB_NAME,null , DatabaseHelper.DB_VERSION).getReadableDatabase();
-			return DBUtils.getEventsCurosr(db);
+			return DBUtils.getAllLectures(db);
 		}
 
 		@Override
