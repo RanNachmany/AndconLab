@@ -104,10 +104,12 @@ public class LecturesListFragment extends SherlockFragment implements OnItemClic
 	// Async task that queries the DB in background
 	////////////////////////////////
 	private class lecturesLoader extends AsyncTask<Void, Void, Cursor> {
+		private SQLiteDatabase db;
+
 		@Override
 		protected Cursor doInBackground(Void... params) {
-			SQLiteDatabase db = new DatabaseHelper(getActivity().getApplicationContext(), DatabaseHelper.DB_NAME,null , DatabaseHelper.DB_VERSION).getReadableDatabase();
-			return DBUtils.getEventsCurosr(db);
+			db = new DatabaseHelper(getActivity().getApplicationContext(), DatabaseHelper.DB_NAME,null , DatabaseHelper.DB_VERSION).getReadableDatabase();
+			return DBUtils.getAllLectures(db);
 		}
 
 		@Override
@@ -128,6 +130,8 @@ public class LecturesListFragment extends SherlockFragment implements OnItemClic
 					adapter.changeCursor(result);
 				}
 			}
+			
+			db.close();
 		}
 	}
 

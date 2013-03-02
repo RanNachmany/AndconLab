@@ -63,6 +63,8 @@ public class SingleLectureFragment extends SherlockFragment{
 			ftv.invalidate();
 			ll.addView(ftv);
 		}
+		
+		db.close();
 	}
 
 }
