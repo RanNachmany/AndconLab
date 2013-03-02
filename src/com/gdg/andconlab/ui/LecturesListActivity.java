@@ -9,17 +9,16 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockActivity;
+import com.gdg.andconlab.CommunicationService;
 import com.gdg.andconlab.DBUtils;
 import com.gdg.andconlab.DatabaseHelper;
 import com.gdg.andconlab.R;
-import com.gdg.andconlab.ServerCommunicationManager;
 
 /**
  * Activity that displays a list of all lectures given in GDG
@@ -47,7 +46,7 @@ public class LecturesListActivity extends SherlockActivity implements OnItemClic
 			//TODO: [Ran] handle network failure
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				if (intent.getAction().equalsIgnoreCase(ServerCommunicationManager.RESULTS_ARE_IN)) {
+				if (intent.getAction().equalsIgnoreCase(CommunicationService.RESULTS_ARE_IN)) {
 					new lecturesLoader().execute((Void) null);
 				}
 
@@ -70,7 +69,7 @@ public class LecturesListActivity extends SherlockActivity implements OnItemClic
 	protected void onResume() {
 		super.onResume();
 		final IntentFilter filter = new IntentFilter();
-		filter.addAction(ServerCommunicationManager.RESULTS_ARE_IN);
+		filter.addAction(CommunicationService.RESULTS_ARE_IN);
 		registerReceiver(mUpdateReceiver, filter);
 		
 		new lecturesLoader().execute((Void)null);
@@ -89,7 +88,9 @@ public class LecturesListActivity extends SherlockActivity implements OnItemClic
 			mProgressDialog = ProgressDialog.show(this, getString(R.string.progress_dialog_starting_title), getString(R.string.progress_dialog_starting_message));
 		}
 		
-		ServerCommunicationManager.getInstance(getApplicationContext()).startSearch("Android", 1);
+		Intent i = new Intent(this,CommunicationService.class);
+		startService(i);
+//		ServerCommunicationManager.getInstance(getApplicationContext()).startSearch("Android", 1);
 	}
 
 	////////////////////////////////

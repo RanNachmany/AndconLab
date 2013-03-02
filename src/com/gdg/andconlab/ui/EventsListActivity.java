@@ -10,7 +10,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.widget.CursorAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,10 +21,10 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
+import com.gdg.andconlab.CommunicationService;
 import com.gdg.andconlab.DBUtils;
 import com.gdg.andconlab.DatabaseHelper;
 import com.gdg.andconlab.R;
-import com.gdg.andconlab.ServerCommunicationManager;
 import com.gdg.andconlab.models.Event;
 
 /**
@@ -74,13 +73,13 @@ public class EventsListActivity extends SherlockActivity {
 			mProgressDialog = ProgressDialog.show(this, getString(R.string.progress_dialog_starting_title), getString(R.string.progress_dialog_starting_message));
 
 		final IntentFilter mFilter = new IntentFilter();
-		mFilter.addAction(ServerCommunicationManager.RESULTS_ARE_IN);
+		mFilter.addAction(CommunicationService.RESULTS_ARE_IN);
 
 		mUpdateReceiver = new BroadcastReceiver() {
 			//TODO: [Ran] handle network failure
 			@Override
 			public void onReceive(Context context, Intent intent) {
-				if (intent.getAction().equalsIgnoreCase(ServerCommunicationManager.RESULTS_ARE_IN)) {
+				if (intent.getAction().equalsIgnoreCase(CommunicationService.RESULTS_ARE_IN)) {
 					new eventsLoader().execute((Void) null);
 				}
 				
@@ -90,7 +89,9 @@ public class EventsListActivity extends SherlockActivity {
 
 		};
 		registerReceiver(mUpdateReceiver, mFilter);
-		ServerCommunicationManager.getInstance(getApplicationContext()).startSearch("Android", 1);
+		Intent i = new Intent(this,CommunicationService.class);
+		startService(i);
+//		ServerCommunicationManager.getInstance(getApplicationContext()).startSearch("Android", 1);
 	}
 	
 	@Override
