@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:id="@+id/lecture_container"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/lecture_name"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="Lecture Name"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/lecture_description"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="asdf asdfasdf  asdf asdf asdf;kljhasd f asdf;kljasd f asdf a;sdklfj as;dklfj asd;kfj  asdjf;klas dfas"
+            android:textColor="@color/ListItemSubTitle"
+            android:textSize="@dimen/sub_title_size" />
+
+<!--         <com.pagesuite.flowtext.FlowTextView
+            android:id="@+id/lecture_description"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentTop="true"
+                android:padding="10dip"
+                android:src="@drawable/andconlablauncher" />
+        </com.pagesuite.flowtext.FlowTextView> -->
+    </LinearLayout>
+
+</ScrollView>

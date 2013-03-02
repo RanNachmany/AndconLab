@@ -57,7 +57,6 @@ public class EventLecturesList extends SherlockActivity {
 			@Override
 			public void onItemClick(AdapterView<?> list, View view, int position,
 					long id) {
-				Log.d("BUGBUG","Pressed on id " + id);
 			}
 		});
 		
@@ -81,7 +80,7 @@ public class EventLecturesList extends SherlockActivity {
 	           //
 	           // http://developer.android.com/design/patterns/navigation.html#up-vs-back
 	           //
-	           NavUtils.navigateUpTo(this, new Intent(this, ItemsListActivity.class));
+	           NavUtils.navigateUpTo(this, new Intent(this, EventsListActivity.class));
 	           return true;
 	     }
 	     return super.onOptionsItemSelected(item);

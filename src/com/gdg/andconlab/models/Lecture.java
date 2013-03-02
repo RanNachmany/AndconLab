@@ -7,6 +7,7 @@ import java.util.List;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 import android.content.ContentValues;
+import android.database.Cursor;
 
 public class Lecture implements Serializable {
 
@@ -17,7 +18,7 @@ public class Lecture implements Serializable {
 	public static final String COLUMN_NAME_DURATION 		= "duration";
 	public static final String COLUMN_NAME_VIDEO_URL 		= "video_url";
     public static final String COLUMN_NAME_SLIDES_URL 		= "slides_url";
-    public static final String COLUMN_NAME_YOOUTBE_ASSET_ID = "youtube_asset";
+    public static final String COLUMN_NAME_YOUTUBE_ASSET_ID = "youtube_asset";
     public static final String COLUMN_NAME_EVENT_ID 		= "event_id";
     
 	
@@ -44,10 +45,19 @@ public class Lecture implements Serializable {
     	cv.put(COLUMN_NAME_NAME, mName);
     	cv.put(COLUMN_NAME_SLIDES_URL, mSlidesUrl);
     	cv.put(COLUMN_NAME_VIDEO_URL, mVideoUrl);
-    	cv.put(COLUMN_NAME_YOOUTBE_ASSET_ID, mYoutubeAssetId);
+    	cv.put(COLUMN_NAME_YOUTUBE_ASSET_ID, mYoutubeAssetId);
     	return cv;
     }
     
+    public void buildFromCursor(Cursor c) {
+    	mId = c.getLong(c.getColumnIndex(COLUMN_NAME_ID));
+    	mName = c.getString(c.getColumnIndex(COLUMN_NAME_NAME));
+    	mDescription = c.getString(c.getColumnIndex(COLUMN_NAME_DESCRIPTION));
+    	mDuration = c.getInt(c.getColumnIndex(COLUMN_NAME_DURATION));
+    	mVideoUrl = c.getString(c.getColumnIndex(COLUMN_NAME_VIDEO_URL));
+    	mSlidesUrl = c.getString(c.getColumnIndex(COLUMN_NAME_SLIDES_URL));
+    	mYoutubeAssetId = c.getString(c.getColumnIndex(COLUMN_NAME_YOUTUBE_ASSET_ID));
+    }
     
     //////////////////////////////////////////
     // Getters & Setters

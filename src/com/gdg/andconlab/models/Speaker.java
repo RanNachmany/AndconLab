@@ -1,19 +1,21 @@
 
 package com.gdg.andconlab.models;
 
-import android.content.ContentValues;
+import java.io.Serializable;
 
-import com.gdg.andconlab.StringUtils;
 import org.codehaus.jackson.annotate.JsonProperty;
 
-import java.io.Serializable;
+import android.content.ContentValues;
+import android.database.Cursor;
+
+import com.gdg.andconlab.StringUtils;
 
 public class Speaker implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	public static final String TABLE_NAME 				= "speakers";
-	public static final String COLUMN_NAME_ID 			= "speaker_id";
+	public static final String COLUMN_NAME_ID 			= "_id";
 	public static final String COLUMN_NAME_BIO 			= "bio";
 	public static final String COLUMN_FIRST_NAME 		= "first_name";
 	public static final String COLUMN_LAST_NAME 		= "last_name";
@@ -37,6 +39,14 @@ public class Speaker implements Serializable {
     	cv.put(COLUMN_NAME_IMAGE_URL, mImageUrl);
     	
     	return cv;
+    }
+    
+    public void buildFromCursor (Cursor c) {
+    	mId = c.getLong(c.getColumnIndex(COLUMN_NAME_ID));
+    	mBio = c.getString(c.getColumnIndex(COLUMN_NAME_BIO));
+    	mFirstName = c.getString(c.getColumnIndex(COLUMN_FIRST_NAME));
+    	mLastName = c.getString(c.getColumnIndex(COLUMN_LAST_NAME));
+    	mImageUrl = c.getString(c.getColumnIndex(COLUMN_NAME_IMAGE_URL));
     }
     
     //////////////////////////////////////////

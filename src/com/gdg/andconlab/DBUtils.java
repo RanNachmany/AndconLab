@@ -178,7 +178,7 @@ public class DBUtils {
 
 		return c;	
 	}
-	
+
 	public static Cursor getAllLectures (SQLiteDatabase db) {
 		String[] cols = new String[] {
 				Lecture.COLUMN_NAME_ID,
@@ -186,8 +186,44 @@ public class DBUtils {
 				Lecture.COLUMN_NAME_DESCRIPTION,
 				Lecture.COLUMN_NAME_DURATION
 		};
-		
+
 		return db.query(Lecture.TABLE_NAME, cols, null, null, null, null, Lecture.COLUMN_NAME_EVENT_ID + " DESC");
+	}
+
+	/**
+	 * Fetches a lecture from db
+	 * @param db
+	 * @param id
+	 * @return Lecture object or null if no lecture found. 
+	 */
+	public static Lecture getLectureById (SQLiteDatabase db, long id) {
+		Cursor c = db.query(Lecture.TABLE_NAME, null, Lecture.COLUMN_NAME_ID + "=" + id, null, null, null, null);
+		Lecture lecture = new Lecture();
+		if (c.moveToNext()) {
+			lecture.buildFromCursor(c);
+			c.close();
+			return lecture;
+		}
+		return null;
+	}
+
+	public static ArrayList<Speaker> getSpeakersByLectureId (SQLiteDatabase db, long id) {
+		ArrayList<Speaker> speakers = new ArrayList<Speaker>();
+
+		String select = "SELECT * FROM " + Speaker.TABLE_NAME +" WHERE " + Speaker.COLUMN_NAME_ID +" IN ("+
+				" SELECT " + DatabaseHelper.PAIR_SPEAKER_ID + " FROM " + DatabaseHelper.LECTURE_SPEAKER_PAIT_TABLE + " WHERE " + DatabaseHelper.PAIR_LECTURE_ID + " = " +id +")";
+
+		Cursor c = db.rawQuery(select, null);
+
+		Speaker speaker;
+		while (c.moveToNext()) {
+			speaker = new Speaker();
+			speaker.buildFromCursor(c);
+			speakers.add(speaker);
+		}
+
+		c.close();
+		return speakers;
 	}
 
 	/**

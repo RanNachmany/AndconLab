@@ -49,7 +49,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 				Lecture.COLUMN_NAME_NAME, "TEXT", 
 				Lecture.COLUMN_NAME_SLIDES_URL, "TEXT",
 				Lecture.COLUMN_NAME_VIDEO_URL, "TEXT",
-				Lecture.COLUMN_NAME_YOOUTBE_ASSET_ID, "TEXT");
+				Lecture.COLUMN_NAME_YOUTUBE_ASSET_ID, "TEXT");
 		
 		//create speakers table
 		DBUtils.createTable(db, sb, 
