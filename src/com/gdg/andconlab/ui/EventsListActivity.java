@@ -28,7 +28,14 @@ import com.gdg.andconlab.R;
 import com.gdg.andconlab.ServerCommunicationManager;
 import com.gdg.andconlab.models.Event;
 
-public class MainActivity extends SherlockActivity {
+/**
+ * Activity that displays a list of all events. 
+ * If no events were found in local DB - it will issue server update 
+ * automatically, displaying a wait dialog to the user. 
+ * @author Ran Nachmany
+ *
+ */
+public class EventsListActivity extends SherlockActivity {
 
 	private ListView mList;
 	private ProgressDialog mProgressDialog;
@@ -37,17 +44,16 @@ public class MainActivity extends SherlockActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
-		mList = (ListView) findViewById(R.id.events_list);
+		setContentView(R.layout.single_list_activity);
+		mList = (ListView) findViewById(R.id.list);
 		
 		mList.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> list, View view, int position,
 					long id) {
-				Log.d("BUGBUG","Pressed on id " + id);
-				Intent i = new Intent(MainActivity.this,LecturesList.class);
-				i.putExtra(LecturesList.EXTRA_EVENT_ID, id);
+				Intent i = new Intent(EventsListActivity.this,EventLecturesList.class);
+				i.putExtra(EventLecturesList.EXTRA_EVENT_ID, id);
 				startActivity(i);
 			}
 		});
@@ -149,7 +155,7 @@ public class MainActivity extends SherlockActivity {
 		protected Cursor doInBackground(Void... params) {
 
 
-			SQLiteDatabase db = new DatabaseHelper(MainActivity.this.getApplicationContext(), DatabaseHelper.DB_NAME,null , DatabaseHelper.DB_VERSION).getReadableDatabase();
+			SQLiteDatabase db = new DatabaseHelper(EventsListActivity.this.getApplicationContext(), DatabaseHelper.DB_NAME,null , DatabaseHelper.DB_VERSION).getReadableDatabase();
 			return DBUtils.getEventsCurosr(db);
 		}
 
@@ -162,7 +168,7 @@ public class MainActivity extends SherlockActivity {
 			else {
 				eventsAdapter adapter = (eventsAdapter) mList.getAdapter();
 				if (null == adapter) {
-					adapter = new eventsAdapter(MainActivity.this.getApplicationContext(), result);
+					adapter = new eventsAdapter(EventsListActivity.this.getApplicationContext(), result);
 					mList.setAdapter(adapter);
 				}
 				else {

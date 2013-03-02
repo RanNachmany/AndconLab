@@ -8,9 +8,12 @@
         android:id="@+id/lecture_name"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
         android:fontFamily="san-serif-light"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="@color/ListItemTitle" />
+        android:textColor="@color/ListItemTitle" 
+        />
 
     <TextView
         android:id="@+id/lecture_description"
@@ -24,5 +27,4 @@
         android:maxLines="4"
         android:ellipsize="end"
         />
-
 </RelativeLayout>
