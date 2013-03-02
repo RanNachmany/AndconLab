@@ -50,6 +50,7 @@
             
         </provider>
         -->
+        <service android:name="CommunicationService"></service>
 
     </application>
 
