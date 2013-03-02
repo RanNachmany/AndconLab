@@ -23,13 +23,15 @@ public class MainActivity extends SherlockFragmentActivity implements LecturesLi
 	private ProgressDialog mProgressDialog;
 	private BroadcastReceiver mUpdateReceiver;
 	private LecturesListFragment mLecturesFragment;
+	private SingleLectureFragment mLectureFragment;
+	private boolean mTwoPanes = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.main_activity);
-		
+
 		mUpdateReceiver = new BroadcastReceiver() {
 			//TODO: [Ran] handle network failure
 			@Override
@@ -42,8 +44,11 @@ public class MainActivity extends SherlockFragmentActivity implements LecturesLi
 					mProgressDialog.dismiss();
 			}
 		};
-		
+
 		mLecturesFragment = (LecturesListFragment) getSupportFragmentManager().findFragmentById(R.id.lectures_fragment);
+		if (null != findViewById(R.id.lecture_details_container)) {
+			mTwoPanes = true;
+		}
 	}
 
 	@Override
@@ -61,17 +66,26 @@ public class MainActivity extends SherlockFragmentActivity implements LecturesLi
 		final IntentFilter filter = new IntentFilter();
 		filter.addAction(CommunicationService.RESULTS_ARE_IN);
 		registerReceiver(mUpdateReceiver, filter);
-		
+
 	}
-	
+
 	////////////////////////////
 	// Fragment interface
 	///////////////////////////
 	@Override
 	public void onLectureClicked(long lectureId) {
-		Intent i = new Intent(this,SingleLectureActivity.class);
-		i.putExtra(SingleLectureActivity.EXTRA_LECTURE_ID, lectureId);
-		startActivity(i);
+		if (mTwoPanes) {
+			SingleLectureFragment f = new SingleLectureFragment();
+			Bundle b = new Bundle();
+			b.putLong(SingleLectureFragment.LECTURE_ID, lectureId);
+			f.setArguments(b);
+			getSupportFragmentManager().beginTransaction().replace(R.id.lecture_details_container, f).commit();
+		}
+		else {
+			Intent i = new Intent(this,SingleLectureActivity.class);
+			i.putExtra(SingleLectureActivity.EXTRA_LECTURE_ID, lectureId);
+			startActivity(i);
+		}
 	}
 
 	@Override
