@@ -27,7 +27,7 @@ import com.gdg.andconlab.R;
  * @author Ran Nachmany
  *
  */
-public class LecturesListActivity extends SherlockActivity implements OnItemClickListener{
+public class MainActivity extends SherlockActivity implements OnItemClickListener{
 
 	private ListView mList;
 	private ProgressDialog mProgressDialog;
@@ -37,7 +37,7 @@ public class LecturesListActivity extends SherlockActivity implements OnItemClic
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.single_list_activity);
+		setContentView(R.layout.main_activity);
 		mList = (ListView) findViewById(R.id.list);
 
 		mList.setOnItemClickListener(this);
@@ -101,7 +101,7 @@ public class LecturesListActivity extends SherlockActivity implements OnItemClic
 		protected Cursor doInBackground(Void... params) {
 
 
-			SQLiteDatabase db = new DatabaseHelper(LecturesListActivity.this.getApplicationContext(), DatabaseHelper.DB_NAME,null , DatabaseHelper.DB_VERSION).getReadableDatabase();
+			SQLiteDatabase db = new DatabaseHelper(MainActivity.this.getApplicationContext(), DatabaseHelper.DB_NAME,null , DatabaseHelper.DB_VERSION).getReadableDatabase();
 			return DBUtils.getEventsCurosr(db);
 		}
 
@@ -114,7 +114,7 @@ public class LecturesListActivity extends SherlockActivity implements OnItemClic
 			else {
 				LecturesAdapter adapter = (LecturesAdapter) mList.getAdapter();
 				if (null == adapter) {
-					adapter = new LecturesAdapter(LecturesListActivity.this.getApplicationContext(), result);
+					adapter = new LecturesAdapter(MainActivity.this.getApplicationContext(), result);
 					mList.setAdapter(adapter);	
 				}
 				else {
