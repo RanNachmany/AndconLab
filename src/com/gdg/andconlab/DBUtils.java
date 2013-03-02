@@ -178,6 +178,17 @@ public class DBUtils {
 
 		return c;	
 	}
+	
+	public static Cursor getAllLectures (SQLiteDatabase db) {
+		String[] cols = new String[] {
+				Lecture.COLUMN_NAME_ID,
+				Lecture.COLUMN_NAME_NAME,
+				Lecture.COLUMN_NAME_DESCRIPTION,
+				Lecture.COLUMN_NAME_DURATION
+		};
+		
+		return db.query(Lecture.TABLE_NAME, cols, null, null, null, null, Lecture.COLUMN_NAME_EVENT_ID + " DESC");
+	}
 
 	/**
 	 * Creates a Content Uri out of given authority and table name at the following manner: <br/>

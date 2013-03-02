@@ -1,6 +1,5 @@
 package com.gdg.andconlab.ui;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -26,9 +25,18 @@ import com.gdg.andconlab.ItemsListActivity;
 import com.gdg.andconlab.R;
 import com.gdg.andconlab.models.Lecture;
 
-public class LecturesList extends SherlockActivity {
+/**
+ * Activity that displays a list of all lectures in a specific event. 
+ * THis activity expects to get an event id in the intent that calls it. 
+ * @author Ran Nachmany
+ *
+ */
+
+public class EventLecturesList extends SherlockActivity {
 
 	public static final String EXTRA_EVENT_ID = "event_id";
+	
+	private static final int ILLEGAL_ID = -1; 
 	
 	private ListView mList;
 	private long mEventId;
@@ -53,9 +61,13 @@ public class LecturesList extends SherlockActivity {
 			}
 		});
 		
-		mEventId = getIntent().getLongExtra(EXTRA_EVENT_ID, 0);
-		
-		new lecturesLoader().execute(new Long(mEventId));
+		mEventId = getIntent().getLongExtra(EXTRA_EVENT_ID, ILLEGAL_ID);
+		if (ILLEGAL_ID == mEventId) {
+			throw new IllegalStateException("This Activity should be called with EXTRA_EVENT_ID in Intent bundle");
+		}
+		else {
+			new lecturesLoader().execute(Long.valueOf(mEventId));
+		}
 	}
 
 	@Override
@@ -75,49 +87,6 @@ public class LecturesList extends SherlockActivity {
 	     return super.onOptionsItemSelected(item);
 	  }
 	
-	////////////////////////////////
-	//List Adapter
-	////////////////////////////////
-	private class lecturesAdapter extends CursorAdapter {
-
-		private int idx_name;
-		private int idx_description;
-
-		public lecturesAdapter(Context context, Cursor c) {
-			super(context, c,0);
-
-			idx_name = c.getColumnIndex(Lecture.COLUMN_NAME_NAME);
-			idx_description = c.getColumnIndex(Lecture.COLUMN_NAME_DESCRIPTION);
-		}
-
-		@Override
-		public void bindView(View view, Context context, Cursor cursor) {
-			ViewHolder holder = (ViewHolder) view.getTag();
-			holder.name.setText(cursor.getString(idx_name));
-			holder.desctiprion.setText(cursor.getString(idx_description));
-		}
-
-		@Override
-		public View newView(Context context, Cursor cursor, ViewGroup list) {
-			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View view = inflater.inflate(R.layout.lecture_list_item, null);
-
-			ViewHolder holder = new ViewHolder();
-			holder.name  = (TextView) view.findViewById(R.id.lecture_name);
-			holder.desctiprion = (TextView) view.findViewById(R.id.lecture_description);
-
-			view.setTag(holder);
-
-			return view;
-		}
-	}
-
-	private class ViewHolder {
-		public TextView name;
-		public TextView desctiprion;
-	}
-
-
 
 	////////////////////////////////
 	// Async task that queries the DB in background
@@ -125,15 +94,15 @@ public class LecturesList extends SherlockActivity {
 	private class lecturesLoader extends AsyncTask<Long, Void, Cursor> {
 		@Override
 		protected Cursor doInBackground(Long... params) {
-			SQLiteDatabase db = new DatabaseHelper(LecturesList.this.getApplicationContext(), DatabaseHelper.DB_NAME,null , DatabaseHelper.DB_VERSION).getReadableDatabase();
+			SQLiteDatabase db = new DatabaseHelper(EventLecturesList.this.getApplicationContext(), DatabaseHelper.DB_NAME,null , DatabaseHelper.DB_VERSION).getReadableDatabase();
 			return DBUtils.getLecturesByEventId(db,params[0]);
 		}
 
 		@Override
 		protected void onPostExecute(Cursor result) {
-			lecturesAdapter adapter = (lecturesAdapter) mList.getAdapter();
+			LecturesAdapter adapter = (LecturesAdapter) mList.getAdapter();
 			if (null == adapter) {
-				adapter = new lecturesAdapter(LecturesList.this.getApplicationContext(), result);
+				adapter = new LecturesAdapter(EventLecturesList.this.getApplicationContext(), result);
 				mList.setAdapter(adapter);	
 			}
 			else {
