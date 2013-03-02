@@ -33,11 +33,6 @@ public class SingleLectureFragment extends SherlockFragment{
 			Bundle savedInstanceState) {
 		mRootView = inflater.inflate(R.layout.single_lecture_fragment, null);
 
-		if (null != getArguments()) {
-			long id = getArguments().getLong(LECTURE_ID);
-			setLectureId(id);
-		}
-		
 		return mRootView;
 	}
 	
@@ -68,6 +63,8 @@ public class SingleLectureFragment extends SherlockFragment{
 			ftv.invalidate();
 			ll.addView(ftv);
 		}
+		
+		db.close();
 	}
 
 }
