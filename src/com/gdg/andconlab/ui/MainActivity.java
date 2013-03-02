@@ -108,7 +108,7 @@ public class MainActivity extends SherlockActivity implements OnItemClickListene
 		@Override
 		protected void onPostExecute(Cursor result) {
 			if (0 == result.getCount()) {
-				//we don't have anythign in our DB, force network refresh
+				//we don't have anything in our DB, force network refresh
 				refreshList(true);
 			}
 			else {
