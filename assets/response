@@ -1,0 +1,45 @@
+[
+    {
+        "lectures": [
+            {
+                "speakers": [
+                    {
+                        "bio": "Sample bio",
+                        "first_name": "Amir",
+                        "last_name": "Lazarovich",
+                        "image_url": "http://amirl.me/imgs/about/me2_bw.jpg",
+                        "id": 1
+                    },
+                    {
+                        "bio": "Sample bio",
+                        "first_name": "Ran",
+                        "last_name": "Nachmany",
+                        "image_url": "http://photos1.meetupstatic.com/photos/event/4/a/4/e/highres_143179022.jpeg",
+                        "id": 2
+                    },
+                    {
+                        "bio": "Sample bio",
+                        "first_name": "Royi",
+                        "last_name": "Benyossef",
+                        "image_url": "http://photos1.meetupstatic.com/photos/event/4/a/4/e/highres_143179022.jpeg",
+                        "id": 3
+                    }
+                ],
+                "description": "bla bla fragments",
+                "video_url": "http://www.youtube.com/watch?v=6vEA2EIBHUs",
+                "slides_url": "http://www.slideshare.net/amirlazarovich/adk-101",
+                "duration": 180,
+                "youtube_asset_id": "6vEA2EIBHUs",
+                "id": 1,
+                "name": "code lab"
+            }
+        ],
+        "description": "Sample event description",
+        "end_date": "2013-03-05T22:00:00Z",
+        "id": 1,
+        "logo_url": "http://photos2.meetupstatic.com/photos/event/7/b/7/c/highres_154051612.jpeg",
+        "start_date": "2013-03-04T18:00:00Z",
+        "website_url": "http://www.meetup.com/GDG-Herzeliya/events/104989192/",
+        "name": "Sample event"
+    }
+]

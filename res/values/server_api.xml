@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="api_get_events">events/</string>
+    <string name="api_get_event">events/%s</string>
+    <string name="api_get_event_lectures">events/%s/lectures</string>
+
+    <string name="api_get_lectures">lectures/</string>
+    <string name="api_get_lecture">lectures/%s</string>
+    <string name="api_get_lecture_speakers">lectures/%s/speakers</string>
+
+    <string name="api_get_speakers">speakers/</string>
+    <string name="api_get_speaker">speakers/%s</string>
+    <string name="api_get_speaker_lectures">speakers/%s/lectures</string>
+</resources>

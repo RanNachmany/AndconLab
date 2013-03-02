@@ -1,0 +1,35 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+        Base application theme, dependent on API level. This theme is replaced
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+    -->
+    <style name="AppBaseTheme" parent="@style/Theme.Sherlock.Light.DarkActionBar">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+        -->
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+    <style name="bold_text">
+        
+        <item name="android:textStyle">bold</item>
+        
+    </style>
+    
+    <color name="divider_color">#404040</color>
+	<color name="ListItemTitle">#000000</color>
+	<color name="ListItemSubTitle">#a0a0a0</color>
+    
+	<style name="listItemStyle">
+		<item name="android:minHeight">?android:attr/listPreferredItemHeight</item>
+		<item name="android:paddingLeft">@dimen/list_item_horizontal_margin</item>
+		<item name="android:paddingRight">@dimen/list_item_horizontal_margin</item>
+		<item name="android:paddingBottom">@dimen/list_item_padding_bottom</item>
+	</style>
+</resources>
