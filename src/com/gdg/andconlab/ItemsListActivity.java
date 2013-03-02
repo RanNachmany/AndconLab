@@ -32,6 +32,7 @@ public class ItemsListActivity extends SherlockListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_items_list);
+        
         if (hasConnectivity()) {
             mProgressDialog = ProgressDialog.show(ItemsListActivity.this, getString(R.string.progress_dialog_starting_title), getString(R.string.progress_dialog_starting_message));
             mList = (ListView) findViewById(android.R.id.list);

@@ -1,10 +1,10 @@
 package com.gdg.andconlab.utils;
 
-import com.android.internal.util.Predicate;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
+//import com.android.internal.util.Predicate;
 
 /**
  * @author Amir Lazarovich
@@ -68,15 +68,15 @@ public class CollectionUtils {
      * @param <T>
      * @return
      */
-    public static <T> List<T> filter(Collection<T> target, Predicate<T> predicate) {
-        List<T> result = new ArrayList<T>();
-        for (T element: target) {
-            if (predicate.apply(element)) {
-                result.add(element);
-            }
-        }
-        return result;
-    }
+//    public static <T> List<T> filter(Collection<T> target, Predicate<T> predicate) {
+//        List<T> result = new ArrayList<T>();
+//        for (T element: target) {
+//            if (predicate.apply(element)) {
+//                result.add(element);
+//            }
+//        }
+//        return result;
+//    }
 
     /**
      * Get the size of <code>collection</code>

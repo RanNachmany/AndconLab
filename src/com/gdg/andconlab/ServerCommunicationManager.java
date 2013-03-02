@@ -1,20 +1,11 @@
 package com.gdg.andconlab;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.AsyncTask;
-import android.support.v4.util.LruCache;
-import android.util.Log;
-import android.widget.ImageView;
-import com.gdg.andconlab.ItemsProvider.ItemColumns;
-import com.gdg.andconlab.R.string;
-import com.gdg.andconlab.models.Event;
-import com.gdg.andconlab.utils.JacksonUtils;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.List;
+
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
@@ -24,13 +15,25 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.codehaus.jackson.type.TypeReference;
 
-import java.io.*;
-import java.net.URL;
-import java.util.List;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
+import android.util.Log;
+import android.util.LruCache;
+import android.widget.ImageView;
+
+import com.gdg.andconlab.R.string;
+import com.gdg.andconlab.models.Event;
+import com.gdg.andconlab.models.Lecture;
+import com.gdg.andconlab.models.Speaker;
+import com.gdg.andconlab.utils.JacksonUtils;
 
 public class ServerCommunicationManager{
 	
-	public static final String TAG = "TWITTER_SEARCH_EXAMPLE_SERVER_COMMUNICATION";
+	public static final String TAG = "COMMS";
 	public static final String RESULTS_ARE_IN = "RESULTS_ARE_IN";
 
 	private static ServerCommunicationManager mThis = null;
@@ -54,8 +57,9 @@ public class ServerCommunicationManager{
 	
 	private List<Event> mEvents;
 	private LruCache<String, Bitmap> mImageCache;
-	private ItemsProvider mProvider;
+//	private ItemsProvider mProvider;
 	
+	@SuppressLint("NewApi")
 	public ServerCommunicationManager(Context context) {
 		mHttpClient = new  DefaultHttpClient();
         HttpParams params = mHttpClient.getParams();
@@ -65,7 +69,7 @@ public class ServerCommunicationManager{
 
 		mResponseHandler = new BasicResponseHandler();
 		mImageCache = new LruCache<String, Bitmap>(100);
-		mProvider = new ItemsProvider();
+//		mProvider = new ItemsProvider();
 		mContext = context;
         initApiStrings(context);
     }
@@ -127,12 +131,30 @@ public class ServerCommunicationManager{
                     events = JacksonUtils.sReadValue(responseBody, new TypeReference<List<Event>>() {}, false);
                     if (events != null) {
                         for (Event event : events) {
-                            event.save(mContext);
+                        	Log.d(TAG,"Event id: " + event.getId());
+                        	Log.d(TAG,"Event name: " + event.getName());
+                        	
+                        	List<Lecture> lectures = event.getLectures();
+                        	for (Lecture lecture : lectures) {
+                        		Log.d(TAG,"Lecture id" + lecture.getId());
+                        		Log.d(TAG,"Lecture name" + lecture.getName());
+                        		
+                        		List<Speaker> speakers = lecture.getSpeakers();
+                        		
+                        		for (Speaker speaker : speakers) {
+                        			Log.d(TAG,"Lecture id" + speaker.getId());
+                            		Log.d(TAG,"Lecture name" + speaker.getFirstName());
+                        		}
+                        	}
                         }
+                        
+                        SQLiteDatabase db = new DatabaseHelper(mContext, DatabaseHelper.DB_NAME, null, DatabaseHelper.DB_VERSION).getWritableDatabase();
+                        DBUtils.storeEvents(db, events);
                     }
 	    		}
 	            return events;
 	        } catch (Exception e) {
+	        	e.printStackTrace();
 	            Log.d(TAG, "exception");
 	        	return null;
 	        }
@@ -155,7 +177,8 @@ public class ServerCommunicationManager{
 
         @Override
         protected Bitmap doInBackground(ImageView... params) {
-        	iv = params[0];
+        	//TODO: [Ran] implement this
+        	/*iv = params[0];
         	mAssetId = ((String) iv.getTag()).substring(((String) iv.getTag()).indexOf("$sep$")+"$sep$".length(),((String) iv.getTag()).length());
         	mUrl = ((String) iv.getTag()).substring(0, ((String) iv.getTag()).indexOf("$sep$"));
             //mBitmap = mImageCache.get(mUrl);
@@ -180,7 +203,9 @@ public class ServerCommunicationManager{
             if(mBitmap == null){
             	mBitmap = getBitmapFromUrl(mUrl); 
             }
-            return mBitmap;
+            return mBitmap;*/
+        	
+        	return null;
         }
 
 		@Override
@@ -189,7 +214,8 @@ public class ServerCommunicationManager{
         }
         
         public Bitmap getBitmapFromUrl(String bitmapUrl) {
-        	  try {
+        	//TODO: [Ran] Implement this
+        	  /*try {
         	    URL url = new URL(bitmapUrl);
         	    Bitmap bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream()); 
         	    mImageCache.put(bitmapUrl, bitmap);
@@ -218,19 +244,19 @@ public class ServerCommunicationManager{
         	        where,               // the column to select on
         	        mSelectionArgs                  // the value to compare to
         	    );
-        	    
+*/        	    
         	    
         	    /*values.put(ItemColumns.COLUMN_NAME_LECTURER_IMAGE, bArray);
         	    Uri uri = Uri.withAppendedPath(ItemColumns.CONTENT_URI, mAssetId);
         	    
         	    mContext.getContentResolver().update(uri, values, ItemColumns.COLUMN_NAME_LECTURE_VIDEO_ID + "='" + mAssetId + "' AND ", null);*/
         	    
-        	    return bitmap;
-        	  }
+        	    return null;
+        	  /*}
         	  catch(Exception ex) {
         		  Log.d(TAG, "Message");
         		  return null;
-        	  }
+        	  }*/
         	}
 
 	}
