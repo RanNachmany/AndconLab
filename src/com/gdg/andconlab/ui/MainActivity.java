@@ -97,11 +97,11 @@ public class MainActivity extends SherlockActivity implements OnItemClickListene
 	// Async task that queries the DB in background
 	////////////////////////////////
 	private class lecturesLoader extends AsyncTask<Void, Void, Cursor> {
+		private SQLiteDatabase db;
+
 		@Override
 		protected Cursor doInBackground(Void... params) {
-
-
-			SQLiteDatabase db = new DatabaseHelper(MainActivity.this.getApplicationContext(), DatabaseHelper.DB_NAME,null , DatabaseHelper.DB_VERSION).getReadableDatabase();
+			db = new DatabaseHelper(MainActivity.this.getApplicationContext(), DatabaseHelper.DB_NAME,null , DatabaseHelper.DB_VERSION).getReadableDatabase();
 			return DBUtils.getEventsCurosr(db);
 		}
 
@@ -121,6 +121,7 @@ public class MainActivity extends SherlockActivity implements OnItemClickListene
 					adapter.changeCursor(result);
 				}
 			}
+			db.close();
 		}
 	}
 }

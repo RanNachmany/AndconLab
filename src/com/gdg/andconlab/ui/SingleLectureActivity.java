@@ -74,6 +74,8 @@ public class SingleLectureActivity extends SherlockActivity{
 				ftv.invalidate();
 				ll.addView(ftv);
 			}
+			
+			db.close();
 		}
 	}
 	
