@@ -27,9 +27,8 @@ import com.gdg.andconlab.R;
  * @author Ran Nachmany
  *
  */
-public class LecturesListActivity extends SherlockActivity implements OnItemClickListener{
+public class LecturesListActivity extends SherlockActivity implements LecturesListFragment.callbacks{
 
-	private ListView mList;
 	private ProgressDialog mProgressDialog;
 	private BroadcastReceiver mUpdateReceiver;
 
@@ -38,16 +37,13 @@ public class LecturesListActivity extends SherlockActivity implements OnItemClic
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.single_list_activity);
-		mList = (ListView) findViewById(R.id.list);
 
-		mList.setOnItemClickListener(this);
-		
 		mUpdateReceiver = new BroadcastReceiver() {
 			//TODO: [Ran] handle network failure
 			@Override
 			public void onReceive(Context context, Intent intent) {
 				if (intent.getAction().equalsIgnoreCase(CommunicationService.RESULTS_ARE_IN)) {
-					new lecturesLoader().execute((Void) null);
+					
 				}
 
 				if (null != mProgressDialog)
@@ -71,56 +67,19 @@ public class LecturesListActivity extends SherlockActivity implements OnItemClic
 		final IntentFilter filter = new IntentFilter();
 		filter.addAction(CommunicationService.RESULTS_ARE_IN);
 		registerReceiver(mUpdateReceiver, filter);
-		
-		new lecturesLoader().execute((Void)null);
 	}
 
 	@Override
-	public void onItemClick(AdapterView<?> list, View view, int position, long id) {
+	public void onLectureClicked(long lectureId) {
 		Intent i = new Intent(this,SingleLectureActivity.class);
-		i.putExtra(SingleLectureActivity.EXTRA_LECTURE_ID, id);
+		i.putExtra(SingleLectureActivity.EXTRA_LECTURE_ID, lectureId);
 		startActivity(i);
-	}
-	
-	
-	private void refreshList(boolean firstLoad) {
-		if (firstLoad) {
-			mProgressDialog = ProgressDialog.show(this, getString(R.string.progress_dialog_starting_title), getString(R.string.progress_dialog_starting_message));
-		}
 		
-		Intent i = new Intent(this,CommunicationService.class);
-		startService(i);
-//		ServerCommunicationManager.getInstance(getApplicationContext()).startSearch("Android", 1);
 	}
 
-	////////////////////////////////
-	// Async task that queries the DB in background
-	////////////////////////////////
-	private class lecturesLoader extends AsyncTask<Void, Void, Cursor> {
-		@Override
-		protected Cursor doInBackground(Void... params) {
-
-
-			SQLiteDatabase db = new DatabaseHelper(LecturesListActivity.this.getApplicationContext(), DatabaseHelper.DB_NAME,null , DatabaseHelper.DB_VERSION).getReadableDatabase();
-			return DBUtils.getEventsCurosr(db);
-		}
-
-		@Override
-		protected void onPostExecute(Cursor result) {
-			if (0 == result.getCount()) {
-				//we don't have anythign in our DB, force network refresh
-				refreshList(true);
-			}
-			else {
-				LecturesAdapter adapter = (LecturesAdapter) mList.getAdapter();
-				if (null == adapter) {
-					adapter = new LecturesAdapter(LecturesListActivity.this.getApplicationContext(), result);
-					mList.setAdapter(adapter);	
-				}
-				else {
-					adapter.changeCursor(result);
-				}
-			}
-		}
+	@Override
+	public void fetchLecturesFromServer() {
+		Intent i = new Intent (this,CommunicationService.class);
+		startService(i);
 	}
 }
