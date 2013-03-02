@@ -61,24 +61,6 @@ public class CollectionUtils {
     }
 
     /**
-     * Filter <code>target</code> collection using given <code>predicate</code>
-     *
-     * @param target
-     * @param predicate
-     * @param <T>
-     * @return
-     */
-//    public static <T> List<T> filter(Collection<T> target, Predicate<T> predicate) {
-//        List<T> result = new ArrayList<T>();
-//        for (T element: target) {
-//            if (predicate.apply(element)) {
-//                result.add(element);
-//            }
-//        }
-//        return result;
-//    }
-
-    /**
      * Get the size of <code>collection</code>
      *
      * @param collection
