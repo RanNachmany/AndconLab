@@ -43,7 +43,7 @@ public class EventsListActivity extends SherlockActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.single_list_activity);
+		setContentView(R.layout.main_activity);
 		mList = (ListView) findViewById(R.id.list);
 		
 		mList.setOnItemClickListener(new OnItemClickListener() {
