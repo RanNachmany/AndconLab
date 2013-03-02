@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:id="@+id/layout"
+    android:padding="15dp">
+    
+    	<TextView 
+          	android:id="@+id/single_details_lecture_title"
+          	android:layout_width="wrap_content"
+    	 	android:layout_height="wrap_content"
+    	 	android:layout_centerHorizontal="true"
+    	 	android:text="@string/default_lecture_title"
+    	 	android:layout_marginLeft="15dp"
+    	 	style="@style/bold_text"/>
+    	
+      <ImageView 
+          	android:id="@+id/single_details_lecturer_image"
+          	android:layout_width="wrap_content"
+    	 	android:layout_height="wrap_content"
+    	 	android:background="@drawable/ic_launcher" 
+    	 	android:contentDescription="@string/default_url"
+    	 	android:maxWidth="40dp"
+    	 	android:maxHeight="40dp"
+    	 	android:layout_below="@+id/single_details_lecture_title"/>
+      
+      <TextView 
+          	android:id="@+id/single_details_lecturer_name"
+          	android:layout_width="wrap_content"
+    	 	android:layout_height="wrap_content"
+    	 	android:layout_toRightOf="@+id/single_details_lecturer_image"
+    	 	android:layout_alignParentRight="true"
+    	 	android:layout_alignBottom="@+id/single_details_lecturer_image"
+    	 	android:text="@string/default_lecturer_name"
+    	 	android:layout_marginLeft="15dp"/>
+      
+      <View android:id="@+id/single_details_sep"
+          	android:layout_width="match_parent"
+    	 	android:layout_height="1dp"
+    	 	android:background="@color/abs__background_holo_dark"
+    	 	android:layout_below="@+id/single_details_lecturer_image"
+    	 	android:layout_marginTop="15dp"
+    	 	android:layout_marginBottom="15dp"/>
+      
+      <TextView 
+          	android:id="@+id/single_details_lecture_description_title"
+          	android:layout_width="match_parent"
+    	 	android:layout_height="wrap_content"
+    	 	android:layout_below="@+id/single_details_sep"
+    	 	android:text="@string/lecture_description"
+    	 	style="@style/bold_text"/>
+      
+      <TextView 
+          	android:id="@+id/single_details_lecture_description"
+          	android:layout_width="match_parent"
+    	 	android:layout_height="wrap_content"
+    	 	android:layout_below="@+id/single_details_lecture_description_title"
+    	 	android:text="@string/default_lecturer_name"/>
+      
+      <View android:id="@+id/single_details_sep2"
+          	android:layout_width="match_parent"
+    	 	android:layout_height="1dp"
+    	 	android:background="@color/abs__background_holo_dark"
+    	 	android:layout_below="@+id/single_details_lecture_description"
+    	 	android:layout_marginTop="15dp"
+    	 />
+      
+      <TextView 
+          	android:id="@+id/single_details_lecture_links_title"
+          	android:layout_width="match_parent"
+    	 	android:layout_height="wrap_content"
+    	 	android:layout_below="@+id/single_details_sep2"
+    	 	android:text="@string/links"
+    	 	style="@style/bold_text"/>
+      
+      <View android:id="@+id/single_details_sep3"
+          	android:layout_width="match_parent"
+    	 	android:layout_height="1dp"
+    	 	android:background="@color/abs__background_holo_dark"
+    	 	android:layout_below="@+id/single_details_lecture_links_title"
+    	 	
+    	 	android:layout_marginBottom="15dp"/>
+      
+      <TextView 
+          	android:id="@+id/single_details_lecture_links_video_title"
+          	android:layout_width="wrap_content"
+    	 	android:layout_height="wrap_content"
+    	 	android:layout_below="@+id/single_details_sep3"
+    	 	android:text="@string/video"
+    	 	style="@style/bold_text"/>
+      
+      <TextView 
+          	android:id="@+id/single_details_lecture_links_video"
+          	android:layout_width="match_parent"
+    	 	android:layout_height="wrap_content"
+    	 	android:layout_below="@+id/single_details_sep3"
+    	 	android:layout_toRightOf="@+id/single_details_lecture_links_video_title"
+    	 	android:text="@string/default_lecturer_name"/>
+      
+      <TextView 
+          	android:id="@+id/single_details_lecture_links_slides_title"
+          	android:layout_width="wrap_content"
+    	 	android:layout_height="wrap_content"
+    	 	android:layout_below="@+id/single_details_lecture_links_video_title"
+    	 	android:text="@string/slides"
+    	 	style="@style/bold_text"/>
+      
+      <TextView 
+          	android:id="@+id/single_details_lecture_links_slides"
+          	android:layout_width="match_parent"
+    	 	android:layout_height="wrap_content"
+    	 	android:layout_below="@+id/single_details_lecture_links_video_title"
+    	 	android:layout_toRightOf="@+id/single_details_lecture_links_slides_title"
+    	 	android:text="@string/default_lecturer_name"/>
+
+</RelativeLayout>

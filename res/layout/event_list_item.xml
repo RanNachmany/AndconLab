@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/listItemStyle"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <ImageView
+        android:id="@+id/event_image"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:src="@drawable/andconlablauncher" />
+
+    <TextView
+        android:id="@+id/event_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@id/event_image"
+        android:layout_toRightOf="@id/event_image"
+        android:fontFamily="san-serif-light"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/ListItemTitle" 
+        android:paddingTop="5dp"
+        android:layout_marginLeft="6dp"
+        />
+
+    <TextView
+        android:id="@+id/event_description"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/event_name"
+        android:layout_below="@id/event_name"
+        android:textColor="@color/ListItemSubTitle"
+        android:textSize="@dimen/sub_title_size"
+        android:fontFamily="san-serif-light" 
+        android:maxLines="2"
+        android:ellipsize="end"
+        />
+
+</RelativeLayout>

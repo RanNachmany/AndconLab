@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="server_address">http://gdglabs.appspot.com/</string>
+    <integer name="http_connection_timeout_in_seconds">15</integer>
+</resources>

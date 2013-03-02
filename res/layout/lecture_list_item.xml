@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/listItemStyle"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/lecture_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="san-serif-light"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="@color/ListItemTitle" />
+
+    <TextView
+        android:id="@+id/lecture_description"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/lecture_name"
+        android:layout_below="@id/lecture_name"
+        android:fontFamily="san-serif-light"
+        android:textColor="@color/ListItemSubTitle"
+        android:textSize="@dimen/sub_title_size" 
+        android:maxLines="4"
+        android:ellipsize="end"
+        />
+
+</RelativeLayout>
