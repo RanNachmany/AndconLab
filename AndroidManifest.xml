@@ -38,8 +38,8 @@
             android:label="@string/app_name" >
         </activity>
         <activity
-            android:name="com.gdg.andconlab.SingleItemDetailsScreen"
-            android:exported="false" >
+            android:name="com.gdg.andconlab.ui.SingleLectureActivity"
+            android:label="@string/app_name" >
         </activity>
 
         <!--

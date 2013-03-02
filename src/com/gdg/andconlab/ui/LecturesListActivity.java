@@ -9,6 +9,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 
 import com.actionbarsherlock.app.SherlockActivity;
@@ -24,7 +28,7 @@ import com.gdg.andconlab.ServerCommunicationManager;
  * @author Ran Nachmany
  *
  */
-public class LecturesListActivity extends SherlockActivity{
+public class LecturesListActivity extends SherlockActivity implements OnItemClickListener{
 
 	private ListView mList;
 	private ProgressDialog mProgressDialog;
@@ -37,6 +41,8 @@ public class LecturesListActivity extends SherlockActivity{
 		setContentView(R.layout.single_list_activity);
 		mList = (ListView) findViewById(R.id.list);
 
+		mList.setOnItemClickListener(this);
+		
 		mUpdateReceiver = new BroadcastReceiver() {
 			//TODO: [Ran] handle network failure
 			@Override
@@ -49,8 +55,6 @@ public class LecturesListActivity extends SherlockActivity{
 					mProgressDialog.dismiss();
 			}
 		};
-		
-		new lecturesLoader().execute((Void)null);
 	}
 
 	@Override
@@ -68,8 +72,18 @@ public class LecturesListActivity extends SherlockActivity{
 		final IntentFilter filter = new IntentFilter();
 		filter.addAction(ServerCommunicationManager.RESULTS_ARE_IN);
 		registerReceiver(mUpdateReceiver, filter);
+		
+		new lecturesLoader().execute((Void)null);
 	}
 
+	@Override
+	public void onItemClick(AdapterView<?> list, View view, int position, long id) {
+		Intent i = new Intent(this,SingleLectureActivity.class);
+		i.putExtra(SingleLectureActivity.EXTRA_LECTURE_ID, id);
+		startActivity(i);
+	}
+	
+	
 	private void refreshList(boolean firstLoad) {
 		if (firstLoad) {
 			mProgressDialog = ProgressDialog.show(this, getString(R.string.progress_dialog_starting_title), getString(R.string.progress_dialog_starting_message));
