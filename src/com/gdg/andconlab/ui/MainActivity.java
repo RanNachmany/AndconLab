@@ -42,19 +42,6 @@ public class MainActivity extends SherlockActivity implements OnItemClickListene
 		mList = (ListView) findViewById(R.id.list);
 
 		mList.setOnItemClickListener(this);
-		
-		mUpdateReceiver = new BroadcastReceiver() {
-			//TODO: [Ran] handle network failure
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				if (intent.getAction().equalsIgnoreCase(CommunicationService.RESULTS_ARE_IN)) {
-					new lecturesLoader().execute((Void) null);
-				}
-
-				if (null != mProgressDialog)
-					mProgressDialog.dismiss();
-			}
-		};
 	}
 
 	@Override
@@ -69,8 +56,21 @@ public class MainActivity extends SherlockActivity implements OnItemClickListene
 	@Override
 	protected void onResume() {
 		super.onResume();
-		final IntentFilter filter = new IntentFilter();
-		filter.addAction(CommunicationService.RESULTS_ARE_IN);
+        mUpdateReceiver = new BroadcastReceiver() {
+            //TODO: [Ran] handle network failure
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent.getAction().equalsIgnoreCase(CommunicationService.RESULTS_ARE_IN)) {
+                    new lecturesLoader().execute((Void) null);
+                }
+
+                if (null != mProgressDialog)
+                    mProgressDialog.dismiss();
+            }
+        };
+
+        final IntentFilter filter = new IntentFilter();
+        filter.addAction(CommunicationService.RESULTS_ARE_IN);
 		registerReceiver(mUpdateReceiver, filter);
 		
 		new lecturesLoader().execute((Void)null);
