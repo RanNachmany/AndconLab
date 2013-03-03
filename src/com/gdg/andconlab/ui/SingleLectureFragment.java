@@ -27,6 +27,7 @@ public class SingleLectureFragment extends SherlockFragment{
 	private static final int ILLEGAL_ID = -1;
 
 	private View mRootView;
+	private String mYoutubeAssetId;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -41,30 +42,39 @@ public class SingleLectureFragment extends SherlockFragment{
 		SQLiteDatabase db = new DatabaseHelper(getActivity().getApplicationContext(), DatabaseHelper.DB_NAME, null, DatabaseHelper.DB_VERSION).getReadableDatabase();
 		Lecture lecture = DBUtils.getLectureById(db, id);
 
+		mYoutubeAssetId = lecture.getYoutubeAssetId();
 		//set lecture name and description
 		((TextView)mRootView.findViewById(R.id.lecture_name)).setText(lecture.getName());
 		((TextView)mRootView.findViewById(R.id.lecture_description)).setText(lecture.getDescription());
 
-		//get all speakers
-		ArrayList<Speaker> speakers = DBUtils.getSpeakersByLectureId(db, id);
+		try{
+			//get all speakers
+			ArrayList<Speaker> speakers = DBUtils.getSpeakersByLectureId(db, id);
 
-		//loop and add speakers.
-		LinearLayout ll = (LinearLayout)mRootView.findViewById(R.id.lecture_container);
-		FlowTextView ftv;
-		ImageView img;
-		for (Speaker speaker : speakers) {
-			ftv = new FlowTextView(getActivity());
-			img = new ImageView(getActivity());
-			img.setImageResource(R.drawable.andconlablauncher);
-			Spanned span = Html.fromHtml("<b>"+speaker.getFirstName() + " " + speaker.getLastName() +"</B><BR>" + speaker.getBio());
-			ftv.addView(img);
-			ftv.setText(span);
-			ftv.setTextSize(getResources().getDimensionPixelSize(R.dimen.sub_title_size));
-			ftv.invalidate();
-			ll.addView(ftv);
+			//loop and add speakers.
+			LinearLayout ll = (LinearLayout)mRootView.findViewById(R.id.lecture_container);
+			FlowTextView ftv;
+			ImageView img;
+			for (Speaker speaker : speakers) {
+				ftv = new FlowTextView(getActivity());
+				img = new ImageView(getActivity());
+				img.setImageResource(R.drawable.andconlablauncher);
+				Spanned span = Html.fromHtml("<b>"+speaker.getFirstName() + " " + speaker.getLastName() +"</B><BR>" + speaker.getBio());
+				ftv.addView(img);
+				ftv.setText(span);
+				ftv.setTextSize(getResources().getDimensionPixelSize(R.dimen.sub_title_size));
+				ftv.invalidate();
+				ll.addView(ftv);
+			}
+		}catch(Exception e){
+			
 		}
 		
 		db.close();
+	}
+	
+	public String getYoutubeAssetId(){
+		return mYoutubeAssetId;
 	}
 
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
-    
+    <item android:id="@+id/youtube_play" android:icon="@drawable/youtube" android:title="Play" android:showAsAction="always"/>
     
 
 </menu>

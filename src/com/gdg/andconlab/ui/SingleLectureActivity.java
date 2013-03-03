@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.gdg.andconlab.DBUtils;
 import com.gdg.andconlab.DatabaseHelper;
@@ -56,12 +58,23 @@ public class SingleLectureActivity extends SherlockFragmentActivity{
 		}
 	}
 	
+	 @Override
+	    public boolean onCreateOptionsMenu(Menu menu) {
+	       MenuInflater inflater = getSupportMenuInflater();
+	       inflater.inflate(R.menu.single_display_menu, menu);
+	       return super.onCreateOptionsMenu(menu);
+	    }
+	
 	@Override
 	  public boolean onOptionsItemSelected(MenuItem item) {
 	     switch (item.getItemId()) {
 	        case android.R.id.home:
 	           finish();
 	           return true;
+	           
+	        case R.id.youtube_play:
+	          	startActivity(new Intent(SingleLectureActivity.this.getApplicationContext(), YoutubePlayerActivity.class).putExtra("CURRENT_ASSET_ID", mFragment.getYoutubeAssetId()));
+	              return true;
 	     }
 	     return super.onOptionsItemSelected(item);
 	  }

@@ -29,5 +29,6 @@
     <string name="slides">Slides:</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="action_settings">Settings</string>
+    <string name="string.error_player">Player error, please make sure you have youtube app version .3.42.1 or higher.</string>
 
 </resources>
