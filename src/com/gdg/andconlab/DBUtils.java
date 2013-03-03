@@ -117,9 +117,11 @@ public class DBUtils {
 				//loop through all the speakers
 				speakers = lecture.getSpeakers();
 				for (Speaker speaker : speakers) {
+					
 					//store speaker in db
 					cv = speaker.getContentValues();
-					db.replace(Speaker.TABLE_NAME, null, cv);
+//					db.replace(Speaker.TABLE_NAME, null, cv);
+					db.insertWithOnConflict(Speaker.TABLE_NAME, null, cv, SQLiteDatabase.CONFLICT_IGNORE);
 
 					//add speaker to this lecture
 					addSpeakerToLecture(db, speaker, lecture);
@@ -137,13 +139,13 @@ public class DBUtils {
 		cv.put(DatabaseHelper.PAIR_LECTURE_ID, lecture.getId());
 		cv.put(DatabaseHelper.PAIR_SPEAKER_ID, speaker.getId());
 
-		db.insert(DatabaseHelper.LECTURE_SPEAKER_PAIT_TABLE, null, cv);
+		db.insert(DatabaseHelper.LECTURE_SPEAKER_PAIR_TABLE, null, cv);
 
 
 	}
 
 	private static void cleaerLectureSpeakers(SQLiteDatabase db, Lecture lecture) {
-		db.delete(DatabaseHelper.LECTURE_SPEAKER_PAIT_TABLE, DatabaseHelper.PAIR_LECTURE_ID + "=" + lecture.getId(), null);
+		db.delete(DatabaseHelper.LECTURE_SPEAKER_PAIR_TABLE, DatabaseHelper.PAIR_LECTURE_ID + "=" + lecture.getId(), null);
 	}
 
 	/**
@@ -211,7 +213,7 @@ public class DBUtils {
 		ArrayList<Speaker> speakers = new ArrayList<Speaker>();
 
 		String select = "SELECT * FROM " + Speaker.TABLE_NAME +" WHERE " + Speaker.COLUMN_NAME_ID +" IN ("+
-				" SELECT " + DatabaseHelper.PAIR_SPEAKER_ID + " FROM " + DatabaseHelper.LECTURE_SPEAKER_PAIT_TABLE + " WHERE " + DatabaseHelper.PAIR_LECTURE_ID + " = " +id +")";
+				" SELECT " + DatabaseHelper.PAIR_SPEAKER_ID + " FROM " + DatabaseHelper.LECTURE_SPEAKER_PAIR_TABLE+ " WHERE " + DatabaseHelper.PAIR_LECTURE_ID + " = " +id +")";
 
 		Cursor c = db.rawQuery(select, null);
 

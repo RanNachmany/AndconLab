@@ -25,6 +25,7 @@
     <color name="divider_color">#404040</color>
 	<color name="ListItemTitle">#000000</color>
 	<color name="ListItemSubTitle">#a0a0a0</color>
+	<color name="LecturesListBackground">#404040</color>
     
 	<style name="listItemStyle">
 		<item name="android:minHeight">?android:attr/listPreferredItemHeight</item>
