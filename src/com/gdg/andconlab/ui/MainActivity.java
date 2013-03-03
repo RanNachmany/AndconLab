@@ -13,8 +13,9 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.gdg.andconlab.CommunicationService;
 import com.gdg.andconlab.DBUtils;
 import com.gdg.andconlab.DatabaseHelper;
@@ -81,10 +82,28 @@ public class MainActivity extends SherlockActivity implements OnItemClickListene
 		i.putExtra(SingleLectureActivity.EXTRA_LECTURE_ID, id);
 		startActivity(i);
 	}
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getSupportMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_refresh:
+                refreshList(true);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 	
 	
-	private void refreshList(boolean firstLoad) {
-		if (firstLoad) {
+	private void refreshList(boolean showProgressbar) {
+		if (showProgressbar) {
 			mProgressDialog = ProgressDialog.show(this, getString(R.string.progress_dialog_starting_title), getString(R.string.progress_dialog_starting_message));
 		}
 		

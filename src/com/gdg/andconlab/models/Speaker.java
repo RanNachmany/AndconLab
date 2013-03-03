@@ -1,14 +1,12 @@
 
 package com.gdg.andconlab.models;
 
-import java.io.Serializable;
-
-import org.codehaus.jackson.annotate.JsonProperty;
-
 import android.content.ContentValues;
 import android.database.Cursor;
+import com.gdg.andconlab.utils.StringUtils;
+import org.codehaus.jackson.annotate.JsonProperty;
 
-import com.gdg.andconlab.StringUtils;
+import java.io.Serializable;
 
 public class Speaker implements Serializable {
 
@@ -33,6 +31,7 @@ public class Speaker implements Serializable {
     
     public ContentValues getContentValues() {
     	ContentValues cv = new ContentValues();
+        cv.put(COLUMN_NAME_ID, mId);
     	cv.put(COLUMN_FIRST_NAME, mFirstName);
     	cv.put(COLUMN_LAST_NAME, mLastName);
     	cv.put(COLUMN_NAME_BIO, mBio);

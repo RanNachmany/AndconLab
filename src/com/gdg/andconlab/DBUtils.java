@@ -1,15 +1,15 @@
 package com.gdg.andconlab;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
 import com.gdg.andconlab.models.Event;
 import com.gdg.andconlab.models.Lecture;
 import com.gdg.andconlab.models.Speaker;
+import com.gdg.andconlab.utils.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Utility class for DB related operations
@@ -113,7 +113,7 @@ public class DBUtils {
 				db.replace(Lecture.TABLE_NAME, null, cv);
 
 				//remove all speakers from this lecture
-				cleaerLectureSpeakers(db, lecture);
+				clearLectureSpeakers(db, lecture);
 				//loop through all the speakers
 				speakers = lecture.getSpeakers();
 				for (Speaker speaker : speakers) {
@@ -142,7 +142,7 @@ public class DBUtils {
 
 	}
 
-	private static void cleaerLectureSpeakers(SQLiteDatabase db, Lecture lecture) {
+	private static void clearLectureSpeakers(SQLiteDatabase db, Lecture lecture) {
 		db.delete(DatabaseHelper.LECTURE_SPEAKER_PAIT_TABLE, DatabaseHelper.PAIR_LECTURE_ID + "=" + lecture.getId(), null);
 	}
 

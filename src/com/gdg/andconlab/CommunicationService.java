@@ -1,7 +1,12 @@
 package com.gdg.andconlab;
 
-import java.util.List;
-
+import android.app.Service;
+import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.IBinder;
+import com.gdg.andconlab.R.string;
+import com.gdg.andconlab.models.Event;
+import com.gdg.andconlab.utils.JacksonUtils;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpGet;
@@ -11,20 +16,7 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.codehaus.jackson.type.TypeReference;
 
-import com.gdg.andconlab.R.string;
-import com.gdg.andconlab.models.Event;
-import com.gdg.andconlab.models.Lecture;
-import com.gdg.andconlab.models.Speaker;
-import com.gdg.andconlab.utils.JacksonUtils;
-
-import android.app.Service;
-import android.content.Context;
-import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
-import android.os.IBinder;
-import android.util.Log;
-import android.util.LruCache;
+import java.util.List;
 
 public class CommunicationService extends Service{
 
@@ -118,24 +110,6 @@ public class CommunicationService extends Service{
 	    		if(responseBody != null) {
                     events = JacksonUtils.sReadValue(responseBody, new TypeReference<List<Event>>() {}, false);
                     if (events != null) {
-                        for (Event event : events) {
-                        	Log.d(TAG,"Event id: " + event.getId());
-                        	Log.d(TAG,"Event name: " + event.getName());
-                        	
-                        	List<Lecture> lectures = event.getLectures();
-                        	for (Lecture lecture : lectures) {
-                        		Log.d(TAG,"Lecture id" + lecture.getId());
-                        		Log.d(TAG,"Lecture name" + lecture.getName());
-                        		
-                        		List<Speaker> speakers = lecture.getSpeakers();
-                        		
-                        		for (Speaker speaker : speakers) {
-                        			Log.d(TAG,"Lecture id" + speaker.getId());
-                            		Log.d(TAG,"Lecture name" + speaker.getFirstName());
-                        		}
-                        	}
-                        }
-                        
                         SQLiteDatabase db = new DatabaseHelper(CommunicationService.this.getApplicationContext(), DatabaseHelper.DB_NAME, null, DatabaseHelper.DB_VERSION).getWritableDatabase();
                         DBUtils.storeEvents(db, events);
                         

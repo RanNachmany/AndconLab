@@ -6,8 +6,8 @@
 
     <ImageView
         android:id="@+id/event_image"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="@dimen/event_list_item_image_width"
+        android:layout_height="@dimen/event_list_item_image_height"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:src="@drawable/andconlablauncher" />

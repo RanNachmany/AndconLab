@@ -18,164 +18,159 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.Menu;
-import com.gdg.andconlab.CommunicationService;
-import com.gdg.andconlab.DBUtils;
-import com.gdg.andconlab.DatabaseHelper;
-import com.gdg.andconlab.R;
+import com.gdg.andconlab.*;
+import com.gdg.andconlab.cache.ImageManager;
+import com.gdg.andconlab.cache.ImageManager.ImageType;
 import com.gdg.andconlab.models.Event;
 
 /**
- * Activity that displays a list of all events. 
- * If no events were found in local DB - it will issue server update 
- * automatically, displaying a wait dialog to the user. 
- * @author Ran Nachmany
+ * Activity that displays a list of all events.
+ * If no events were found in local DB - it will issue server update
+ * automatically, displaying a wait dialog to the user.
  *
+ * @author Ran Nachmany
  */
 public class EventsListActivity extends SherlockActivity {
 
-	private ListView mList;
-	private ProgressDialog mProgressDialog;
-	private BroadcastReceiver mUpdateReceiver;
+    private ListView mList;
+    private ProgressDialog mProgressDialog;
+    private BroadcastReceiver mUpdateReceiver;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.main_activity);
-		mList = (ListView) findViewById(R.id.list);
-		
-		mList.setOnItemClickListener(new OnItemClickListener() {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.main_activity);
+        mList = (ListView) findViewById(R.id.list);
 
-			@Override
-			public void onItemClick(AdapterView<?> list, View view, int position,
-					long id) {
-				Intent i = new Intent(EventsListActivity.this,EventLecturesList.class);
-				i.putExtra(EventLecturesList.EXTRA_EVENT_ID, id);
-				startActivity(i);
-			}
-		});
-		
-		new eventsLoader().execute((Void) null);
-	}
+        mList.setOnItemClickListener(new OnItemClickListener() {
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getSupportMenuInflater().inflate(R.menu.main,  menu);
-		
-		return true;
-	}
+            @Override
+            public void onItemClick(AdapterView<?> list, View view, int position, long id) {
+                Intent i = new Intent(EventsListActivity.this, EventLecturesList.class);
+                i.putExtra(EventLecturesList.EXTRA_EVENT_ID, id);
+                startActivity(i);
+            }
+        });
 
-	private void refreshList(boolean firstLoad) {
-		if (firstLoad)
-			mProgressDialog = ProgressDialog.show(this, getString(R.string.progress_dialog_starting_title), getString(R.string.progress_dialog_starting_message));
+        new eventsLoader().execute((Void) null);
+    }
 
-		final IntentFilter mFilter = new IntentFilter();
-		mFilter.addAction(CommunicationService.RESULTS_ARE_IN);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getSupportMenuInflater().inflate(R.menu.main, menu);
 
-		mUpdateReceiver = new BroadcastReceiver() {
-			//TODO: [Ran] handle network failure
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				if (intent.getAction().equalsIgnoreCase(CommunicationService.RESULTS_ARE_IN)) {
-					new eventsLoader().execute((Void) null);
-				}
-				
-				if (null != mProgressDialog)
-					mProgressDialog.dismiss();
-			}
+        return true;
+    }
 
-		};
-		registerReceiver(mUpdateReceiver, mFilter);
-		Intent i = new Intent(this,CommunicationService.class);
-		startService(i);
+    private void refreshList(boolean firstLoad) {
+        if (firstLoad)
+            mProgressDialog = ProgressDialog.show(this, getString(R.string.progress_dialog_starting_title), getString(R.string.progress_dialog_starting_message));
+
+        final IntentFilter mFilter = new IntentFilter();
+        mFilter.addAction(CommunicationService.RESULTS_ARE_IN);
+
+        mUpdateReceiver = new BroadcastReceiver() {
+            //TODO: [Ran] handle network failure
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent.getAction().equalsIgnoreCase(CommunicationService.RESULTS_ARE_IN)) {
+                    new eventsLoader().execute((Void) null);
+                }
+
+                if (null != mProgressDialog)
+                    mProgressDialog.dismiss();
+            }
+
+        };
+        registerReceiver(mUpdateReceiver, mFilter);
+        Intent i = new Intent(this, CommunicationService.class);
+        startService(i);
 //		ServerCommunicationManager.getInstance(getApplicationContext()).startSearch("Android", 1);
-	}
-	
-	@Override
-	protected void onPause() {
-		super.onPause();
-		if (null != mUpdateReceiver) {
-			unregisterReceiver(mUpdateReceiver);
-			mUpdateReceiver = null;
-		}
-	}
+    }
 
-	////////////////////////////////
-	//List Adapter
-	////////////////////////////////
-	private class eventsAdapter extends CursorAdapter {
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (null != mUpdateReceiver) {
+            unregisterReceiver(mUpdateReceiver);
+            mUpdateReceiver = null;
+        }
+    }
 
-		private int idx_name;
-		private int idx_description;
-		private int idx_image_url;
+    ////////////////////////////////
+    // List Adapter
+    ////////////////////////////////
+    private class eventsAdapter extends CursorAdapter {
 
-		public eventsAdapter(Context context, Cursor c) {
-			super(context, c,0);
+        private int idx_name;
+        private int idx_description;
+        private int idx_image_url;
 
-			idx_name = c.getColumnIndex(Event.COLUMN_NAME_NAME);
-			idx_description = c.getColumnIndex(Event.COLUMN_NAME_DESCRIPTION);
-		}
+        public eventsAdapter(Context context, Cursor c) {
+            super(context, c, 0);
 
-		@Override
-		public void bindView(View view, Context context, Cursor cursor) {
-			ViewHolder holder = (ViewHolder) view.getTag();
-			holder.name.setText(cursor.getString(idx_name));
-			holder.desctiprion.setText(cursor.getString(idx_description));
-		}
+            idx_name = c.getColumnIndex(Event.COLUMN_NAME_NAME);
+            idx_description = c.getColumnIndex(Event.COLUMN_NAME_DESCRIPTION);
+            idx_image_url = c.getColumnIndex(Event.COLUMN_NAME_LOGO_URL);
+        }
 
-		@Override
-		public View newView(Context context, Cursor cursor, ViewGroup list) {
-			LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-			View view = inflater.inflate(R.layout.event_list_item, null);
+        @Override
+        public void bindView(View view, Context context, Cursor cursor) {
+            ViewHolder holder = (ViewHolder) view.getTag();
+            holder.name.setText(cursor.getString(idx_name));
+            holder.description.setText(cursor.getString(idx_description));
+            ImageManager.loadImage(context, ImageType.LOGO, cursor.getString(idx_image_url), holder.image);
+        }
 
-			ViewHolder holder = new ViewHolder();
-			holder.image = (ImageView) view.findViewById(R.id.event_image);
-			holder.name  = (TextView) view.findViewById(R.id.event_name);
-			holder.desctiprion = (TextView) view.findViewById(R.id.event_description);
+        @Override
+        public View newView(Context context, Cursor cursor, ViewGroup list) {
+            LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            View view = inflater.inflate(R.layout.event_list_item, null);
 
-			view.setTag(holder);
-			
-			return view;
-		}
-	}
+            ViewHolder holder = new ViewHolder();
+            holder.image = (ImageView) view.findViewById(R.id.event_image);
+            holder.name = (TextView) view.findViewById(R.id.event_name);
+            holder.description = (TextView) view.findViewById(R.id.event_description);
 
-	private class ViewHolder {
-		public TextView name;
-		public TextView desctiprion;
-		public ImageView image;
-	}
+            view.setTag(holder);
 
-	////////////////////////////////
-	// Async task that queries the DB in background
-	////////////////////////////////
-	private class eventsLoader extends AsyncTask<Void, Void, Cursor> {
-		@Override
-		protected Cursor doInBackground(Void... params) {
+            return view;
+        }
+    }
 
+    private class ViewHolder {
+        public TextView name;
+        public TextView description;
+        public ImageView image;
+    }
 
-			SQLiteDatabase db = new DatabaseHelper(EventsListActivity.this.getApplicationContext(), DatabaseHelper.DB_NAME,null , DatabaseHelper.DB_VERSION).getReadableDatabase();
-			return DBUtils.getEventsCurosr(db);
-		}
+    ////////////////////////////////
+    // Async task that queries the DB in background
+    ////////////////////////////////
+    private class eventsLoader extends AsyncTask<Void, Void, Cursor> {
+        @Override
+        protected Cursor doInBackground(Void... params) {
+            SQLiteDatabase db = new DatabaseHelper(EventsListActivity.this.getApplicationContext(), DatabaseHelper.DB_NAME, null, DatabaseHelper.DB_VERSION).getReadableDatabase();
+            return DBUtils.getEventsCurosr(db);
+        }
 
-		@Override
-		protected void onPostExecute(Cursor result) {
-			if (0 == result.getCount()) {
-				//we don't have anythign in our DB, force network refresh
-				refreshList(true);
-			}
-			else {
-				eventsAdapter adapter = (eventsAdapter) mList.getAdapter();
-				if (null == adapter) {
-					adapter = new eventsAdapter(EventsListActivity.this.getApplicationContext(), result);
-					mList.setAdapter(adapter);
-				}
-				else {
-					adapter.changeCursor(result);
-				}
-			}
-		}
-	}
+        @Override
+        protected void onPostExecute(Cursor result) {
+            if (0 == result.getCount()) {
+                //we don't have anything in our DB, force network refresh
+                refreshList(true);
+            } else {
+                eventsAdapter adapter = (eventsAdapter) mList.getAdapter();
+                if (null == adapter) {
+                    adapter = new eventsAdapter(EventsListActivity.this.getApplicationContext(), result);
+                    mList.setAdapter(adapter);
+                } else {
+                    adapter.changeCursor(result);
+                }
+            }
+        }
+    }
 }
