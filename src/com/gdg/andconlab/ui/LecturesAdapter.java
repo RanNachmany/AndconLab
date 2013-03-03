@@ -3,6 +3,7 @@ package com.gdg.andconlab.ui;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.widget.CursorAdapter;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +26,13 @@ public class LecturesAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         ViewHolder holder = (ViewHolder) view.getTag();
         holder.name.setText(cursor.getString(idx_name));
-        holder.description.setText(cursor.getString(idx_description));
+        String description = cursor.getString(idx_description);
+        if (description != null && !TextUtils.isEmpty(description.trim())) {
+            holder.description.setText(description);
+            holder.description.setVisibility(View.VISIBLE);
+        } else {
+            holder.description.setVisibility(View.GONE);
+        }
     }
 
     @Override
