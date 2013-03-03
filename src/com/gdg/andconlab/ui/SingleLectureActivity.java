@@ -70,7 +70,13 @@ public class SingleLectureActivity extends SherlockActivity implements OnClickLi
 
             //set lecture details
             getSupportActionBar().setTitle(lecture.getName());
-            ((TextView) findViewById(R.id.lecture_description)).setText(lecture.getDescription());
+            String description = lecture.getDescription();
+            if (description != null && !TextUtils.isEmpty(description.trim())) {
+                ((TextView) findViewById(R.id.lecture_description)).setText(description);
+            } else {
+                findViewById(R.id.lecture_description).setVisibility(View.GONE);
+            }
+
             String slidesUrl = lecture.getSlidesUrl();
             String videoUrl = lecture.getVideoUrl();
             boolean showButtons = false;
