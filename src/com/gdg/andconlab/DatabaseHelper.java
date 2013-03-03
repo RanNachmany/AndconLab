@@ -14,7 +14,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 	public static final String DB_NAME = "db";
 	public static final int DB_VERSION = 7;
 	
-	public static final String LECTURE_SPEAKER_PAIT_TABLE = "lecture_speaker_pair";
+	public static final String LECTURE_SPEAKER_PAIR_TABLE = "lecture_speaker_pair";
 	public static final String PAIR_LECTURE_ID = "lecture_id";
 	public static final String PAIR_SPEAKER_ID = "speaker_id";
 	
@@ -62,7 +62,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 		
 		
 		//create lecture <-> speaker pair table
-		DBUtils.createTable(db, sb, LECTURE_SPEAKER_PAIT_TABLE, 
+		DBUtils.createTable(db, sb, LECTURE_SPEAKER_PAIR_TABLE, 
 				PAIR_LECTURE_ID, "TEXT" ,
 				PAIR_SPEAKER_ID, "TEXT");
 		}
@@ -77,7 +77,7 @@ public class DatabaseHelper extends SQLiteOpenHelper{
 		DBUtils.dropTable(db,sb , Event.TABLE_NAME);
 		DBUtils.dropTable(db,sb , Lecture.TABLE_NAME);
 		DBUtils.dropTable(db,sb , Speaker.TABLE_NAME);
-		DBUtils.dropTable(db,sb , LECTURE_SPEAKER_PAIT_TABLE);
+		DBUtils.dropTable(db,sb , LECTURE_SPEAKER_PAIR_TABLE);
 		onCreate(db);
 	}
 }

@@ -37,6 +37,7 @@ public class Speaker implements Serializable {
     	cv.put(COLUMN_LAST_NAME, mLastName);
     	cv.put(COLUMN_NAME_BIO, mBio);
     	cv.put(COLUMN_NAME_IMAGE_URL, mImageUrl);
+    	cv.put(COLUMN_NAME_ID, mId);
     	
     	return cv;
     }
