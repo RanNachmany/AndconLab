@@ -8,6 +8,8 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.gdg.andconlab.CommunicationService;
 import com.gdg.andconlab.R;
 
@@ -31,20 +33,6 @@ public class MainActivity extends SherlockFragmentActivity implements LecturesLi
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.main_activity);
-
-		mUpdateReceiver = new BroadcastReceiver() {
-			//TODO: [Ran] handle network failure
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				if (intent.getAction().equalsIgnoreCase(CommunicationService.RESULTS_ARE_IN)) {
-					mLecturesFragment.reloadLecturesFromDb();
-				}
-
-				if (null != mProgressDialog)
-					mProgressDialog.dismiss();
-			}
-		};
-
 		mLecturesFragment = (LecturesListFragment) getSupportFragmentManager().findFragmentById(R.id.lectures_fragment);
 		if (null != findViewById(R.id.lecture_details_container)) {
 			mTwoPanes = true;
@@ -63,11 +51,42 @@ public class MainActivity extends SherlockFragmentActivity implements LecturesLi
 	@Override
 	protected void onResume() {
 		super.onResume();
+        mUpdateReceiver = new BroadcastReceiver() {
+            //TODO: [Ran] handle network failure
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent.getAction().equalsIgnoreCase(CommunicationService.RESULTS_ARE_IN)) {
+                    mLecturesFragment.reloadLecturesFromDb();
+                }
+
+                if (null != mProgressDialog)
+                    mProgressDialog.dismiss();
+            }
+        };
+        
 		final IntentFilter filter = new IntentFilter();
 		filter.addAction(CommunicationService.RESULTS_ARE_IN);
 		registerReceiver(mUpdateReceiver, filter);
 
 	}
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getSupportMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_refresh:
+                fetchLecturesFromServer();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
 	////////////////////////////
 	// Fragment interface

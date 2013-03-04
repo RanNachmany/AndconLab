@@ -10,14 +10,17 @@
         android:targetSdkVersion="17"
         tools:ignore="OldTargetApi" />
 
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
+        android:name=".App"
         android:icon="@drawable/andconlablauncher"
-        android:label="@string/actionbar_label"
-        android:theme="@style/AppTheme" >
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
+
         <activity
             android:name="com.gdg.andconlab.ui.MainActivity"
             android:label="@string/app_name" >
@@ -27,22 +30,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.gdg.andconlab.ui.EventsListActivity"
-            android:label="@string/app_name" >
-        </activity>
-        <activity android:name="com.gdg.andconlab.ui.EventLecturesList" >
-        </activity>
-        <activity
-            android:name="com.gdg.andconlab.ItemsListActivity"
-            android:label="@string/app_name" >
-        </activity>
-        <activity
-            android:name="com.gdg.andconlab.ui.SingleLectureActivity"
-            android:label="@null" >
-        </activity>
-        <service android:name="CommunicationService"></service>
+        <activity android:name="com.gdg.andconlab.ui.EventsListActivity"/>
+        <activity android:name="com.gdg.andconlab.ui.EventLecturesList"/>
+        <activity android:name="com.gdg.andconlab.ui.SingleLectureActivity"/>
 
+        <service android:name="CommunicationService"/>
     </application>
 
 </manifest>
