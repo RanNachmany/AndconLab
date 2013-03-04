@@ -42,6 +42,9 @@ public class SingleLectureFragment extends SherlockFragment implements OnClickLi
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.single_lecture_fragment, null);
+        if (null != getArguments()) {
+        	setLectureId(getArguments().getLong(LECTURE_ID));
+        }
         return mRootView;
     }
 
