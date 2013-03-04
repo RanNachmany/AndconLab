@@ -20,65 +20,64 @@ import com.gdg.andconlab.R;
  */
 public class MainActivity extends SherlockFragmentActivity implements LecturesListFragment.callbacks{
 
-	private ProgressDialog mProgressDialog;
-	private BroadcastReceiver mUpdateReceiver;
-	private LecturesListFragment mLecturesFragment;
+    private ProgressDialog mProgressDialog;
+    private BroadcastReceiver mUpdateReceiver;
+    private LecturesListFragment mLecturesFragment;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.main_activity);
-		
-		mUpdateReceiver = new BroadcastReceiver() {
-			//TODO: [Ran] handle network failure
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				if (intent.getAction().equalsIgnoreCase(CommunicationService.RESULTS_ARE_IN)) {
-					mLecturesFragment.reloadLecturesFromDb();
-				}
+        setContentView(R.layout.main_activity);
+        mLecturesFragment = (LecturesListFragment) getSupportFragmentManager().findFragmentById(R.id.lectures_fragment);
+    }
 
-				if (null != mProgressDialog)
-					mProgressDialog.dismiss();
-			}
-		};
-		
-		mLecturesFragment = (LecturesListFragment) getSupportFragmentManager().findFragmentById(R.id.lectures_fragment);
-	}
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (null != mUpdateReceiver) {
+            unregisterReceiver(mUpdateReceiver);
+            mUpdateReceiver = null;
+        }
+    }
 
-	@Override
-	protected void onPause() {
-		super.onPause();
-		if (null != mUpdateReceiver) {
-			unregisterReceiver(mUpdateReceiver);
-			mUpdateReceiver = null;
-		}
-	}
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mUpdateReceiver = new BroadcastReceiver() {
+            //TODO: [Ran] handle network failure
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent.getAction().equalsIgnoreCase(CommunicationService.RESULTS_ARE_IN)) {
+                    mLecturesFragment.reloadLecturesFromDb();
+                }
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		final IntentFilter filter = new IntentFilter();
-		filter.addAction(CommunicationService.RESULTS_ARE_IN);
-		registerReceiver(mUpdateReceiver, filter);
-		
-	}
-	
-	////////////////////////////
-	// Fragment interface
-	///////////////////////////
-	@Override
-	public void onLectureClicked(long lectureId) {
-		Intent i = new Intent(this,SingleLectureActivity.class);
-		i.putExtra(SingleLectureActivity.EXTRA_LECTURE_ID, lectureId);
-		startActivity(i);
-	}
+                if (null != mProgressDialog)
+                    mProgressDialog.dismiss();
+            }
+        };
 
-	@Override
-	public void fetchLecturesFromServer() {
-		Intent i = new Intent(this,CommunicationService.class);
-		startService(i);
-		mProgressDialog = ProgressDialog.show(this, getString(R.string.progress_dialog_starting_title), getString(R.string.progress_dialog_starting_message));
-	}
+        final IntentFilter filter = new IntentFilter();
+        filter.addAction(CommunicationService.RESULTS_ARE_IN);
+        registerReceiver(mUpdateReceiver, filter);
+
+    }
+
+    ////////////////////////////
+    // Fragment interface
+    ///////////////////////////
+    @Override
+    public void onLectureClicked(long lectureId) {
+        Intent i = new Intent(this,SingleLectureActivity.class);
+        i.putExtra(SingleLectureActivity.EXTRA_LECTURE_ID, lectureId);
+        startActivity(i);
+    }
+
+    @Override
+    public void fetchLecturesFromServer() {
+        Intent i = new Intent(this,CommunicationService.class);
+        startService(i);
+        mProgressDialog = ProgressDialog.show(this, getString(R.string.progress_dialog_starting_title), getString(R.string.progress_dialog_starting_message));
+    }
 
 }
