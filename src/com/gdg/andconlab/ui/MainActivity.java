@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.MenuItem;
 import com.gdg.andconlab.CommunicationService;
 import com.gdg.andconlab.R;
 
@@ -25,6 +26,7 @@ public class MainActivity extends SherlockFragmentActivity implements LecturesLi
 	private LecturesListFragment mLecturesFragment;
 	private SingleLectureFragment mLectureFragment;
 	private boolean mTwoPanes = false;
+	private long currentLectureId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,16 @@ public class MainActivity extends SherlockFragmentActivity implements LecturesLi
 	}
 
 	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.youtube_play:
+			startActivity(new Intent(getApplicationContext(), YoutubePlayerActivity.class).putExtra("CURRENT_ASSET_ID", mLectureFragment.getYoutubeAssetId()));
+			return true;
+		}
+		return true;
+	}
+
+	@Override
 	protected void onPause() {
 		super.onPause();
 		if (null != mUpdateReceiver) {
@@ -74,18 +86,20 @@ public class MainActivity extends SherlockFragmentActivity implements LecturesLi
 	///////////////////////////
 	@Override
 	public void onLectureClicked(long lectureId) {
+		currentLectureId = lectureId;
 		if (mTwoPanes) {
-			SingleLectureFragment f = new SingleLectureFragment();
+			mLectureFragment = new SingleLectureFragment();
 			Bundle b = new Bundle();
 			b.putLong(SingleLectureFragment.LECTURE_ID, lectureId);
-			f.setArguments(b);
-			getSupportFragmentManager().beginTransaction().replace(R.id.lecture_details_container, f).commit();
+			mLectureFragment.setArguments(b);
+			getSupportFragmentManager().beginTransaction().replace(R.id.lecture_details_container, mLectureFragment).commit();
 		}
 		else {
 			Intent i = new Intent(this,SingleLectureActivity.class);
 			i.putExtra(SingleLectureActivity.EXTRA_LECTURE_ID, lectureId);
 			startActivity(i);
 		}
+
 	}
 
 	@Override

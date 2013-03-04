@@ -60,8 +60,8 @@ public class SingleLectureActivity extends SherlockFragmentActivity{
 	
 	 @Override
 	    public boolean onCreateOptionsMenu(Menu menu) {
-	       MenuInflater inflater = getSupportMenuInflater();
-	       inflater.inflate(R.menu.single_display_menu, menu);
+//	       MenuInflater inflater = getSupportMenuInflater();
+//	       inflater.inflate(R.menu.single_display_menu, menu);
 	       return super.onCreateOptionsMenu(menu);
 	    }
 	

@@ -14,6 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockFragment;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuInflater;
 import com.gdg.andconlab.DBUtils;
 import com.gdg.andconlab.DatabaseHelper;
 import com.gdg.andconlab.R;
@@ -33,8 +35,18 @@ public class SingleLectureFragment extends SherlockFragment{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		mRootView = inflater.inflate(R.layout.single_lecture_fragment, null);
-
+		if (null != getArguments()) {
+			setLectureId(getArguments().getLong(LECTURE_ID));
+		}
+		
+		setHasOptionsMenu(true);
 		return mRootView;
+	}
+	
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+		super.onCreateOptionsMenu(menu, inflater);
+		inflater.inflate(R.menu.single_display_menu, menu);
 	}
 	
 	public void setLectureId (long id) {
