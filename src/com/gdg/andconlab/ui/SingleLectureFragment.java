@@ -100,6 +100,7 @@ public class SingleLectureFragment extends SherlockFragment implements OnClickLi
         }
 
         db.close();
+        mLecture = lecture;
     }
 
     @Override
