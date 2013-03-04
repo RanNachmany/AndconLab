@@ -8,6 +8,8 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
 import com.gdg.andconlab.CommunicationService;
 import com.gdg.andconlab.R;
 
@@ -60,7 +62,24 @@ public class MainActivity extends SherlockFragmentActivity implements LecturesLi
         final IntentFilter filter = new IntentFilter();
         filter.addAction(CommunicationService.RESULTS_ARE_IN);
         registerReceiver(mUpdateReceiver, filter);
+    }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getSupportMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_refresh:
+                fetchLecturesFromServer();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     ////////////////////////////

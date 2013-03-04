@@ -1,15 +1,15 @@
 package com.gdg.andconlab;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
 import com.gdg.andconlab.models.Event;
 import com.gdg.andconlab.models.Lecture;
 import com.gdg.andconlab.models.Speaker;
+import com.gdg.andconlab.utils.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Utility class for DB related operations
