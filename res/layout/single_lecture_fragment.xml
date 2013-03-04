@@ -1,49 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent" >
 
     <LinearLayout
-        android:id="@+id/lecture_container"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/lecture_item_margin">
+        android:padding="@dimen/lecture_item_margin" >
 
         <TextView
             android:id="@+id/lecture_description"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/lecture_item_margin"
             android:textColor="@color/ListItemTitle"
-            android:textSize="@dimen/sub_title_size"/>
+            android:textSize="@dimen/sub_title_size" 
+            android:text="                                                                                          "
+            />
 
         <LinearLayout
             android:id="@+id/lecture_btns_wrapper"
-            android:layout_width="match_parent"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_marginBottom="@dimen/lecture_item_margin"
-            android:visibility="gone">
+            android:orientation="horizontal"
+            android:visibility="gone" >
 
             <Button
                 android:id="@+id/lecture_btn_slides"
-                android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/lecture_btn_height"
+                android:layout_weight="1"
                 android:text="@string/slides"
-                android:visibility="gone"/>
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/lecture_btn_video"
-                android:layout_weight="1"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/lecture_btn_height"
+                android:layout_weight="1"
                 android:text="@string/video"
-                android:visibility="gone"/>
-
+                android:visibility="gone" />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/lecture_container"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/lecture_item_margin" />
     </LinearLayout>
 
 </ScrollView>
